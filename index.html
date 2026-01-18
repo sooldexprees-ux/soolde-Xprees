@@ -1,1 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soolde Xprees - ID System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0f172a; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .gold-btn { background: linear-gradient(45deg, #d4af37, #f1c40f); color: #000; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-6">
+
+    <div class="glass w-full max-w-md p-10 rounded-3xl shadow-2xl text-center border-t-4 border-yellow-500">
+        <h1 class="text-4xl font-black mb-2 tracking-tighter uppercase italic">
+            SOOLDE <span class="text-yellow-500">XPREES</span>
+        </h1>
+        <p class="text-gray-400 text-sm mb-10">نظام الحصول على المعرف الشخصي الذكي</p>
+
+        <div id="idArea" class="hidden mb-8 animate-pulse">
+            <div class="bg-slate-900/80 p-5 rounded-xl border border-yellow-500/30">
+                <p class="text-xs text-yellow-500 uppercase font-bold mb-2">Your Unique ID (UID):</p>
+                <p id="displayUID" class="text-lg font-mono text-white break-all"></p>
+            </div>
+            <button onclick="copyToClipboard()" class="mt-4 text-xs text-gray-300 hover:text-yellow-500 underline transition">نسخ المعرف الشخصي</button>
+        </div>
+
+        <button id="authBtn" class="w-full bg-white hover:bg-gray-100 text-black font-extrabold py-4 rounded-xl flex items-center justify-center gap-4 shadow-lg transition-transform active:scale-95">
+            <img src="https://www.svgrepo.com/show/355037/google.svg" class="w-6 h-6" alt="Google">
+            الحصول على ID عبر Google
+        </button>
+
+        <p id="statusMsg" class="mt-8 text-gray-500 text-xs">سجل دخولك لتوليد معرفك الفريد وتخزينه في النظام.</p>
+    </div>
+
+    <script type="module">
+        // استيراد Firebase من CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        // معلومات الساروت من الصور ديالك
+        const firebaseConfig = {
+            apiKey: "AIzaSyAab2Z0TX6-6mHgbJe81sbSiDBmMF_b7pQ",
+            authDomain: "soolde-exprees.firebaseapp.com",
+            projectId: "soolde-exprees",
+            storageBucket: "soolde-exprees.firebasestorage.app",
+            messagingSenderId: "1014851258020",
+            appId: "1:1014851258020:web:82163d0f07aa9c0012c831",
+            measurementId: "G-S9E7HP8MBP"
+        };
+
+        // تفعيل الماكينة
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        const btn = document.getElementById('authBtn');
+        const idArea = document.getElementById('idArea');
+        const displayUID = document.getElementById('displayUID');
+        const statusMsg = document.getElementById('statusMsg');
+
+        // دالة تسجيل الدخول
+        btn.onclick = async () => {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+
+                // إظهار النتائج
+                displayUID.innerText = user.uid;
+                idArea.classList.remove('hidden');
+                btn.innerHTML = "✓ تم تسجيل المعرف";
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+                btn.disabled = true;
+                statusMsg.innerText = "تم التحقق من هويتك بنجاح.";
+                
+            } catch (error) {
+                console.error(error);
+                alert("خطأ: تأكد من إضافة رابط GitHub في Authorized Domains في إعدادات Firebase.");
+            }
+        };
+
+        // دالة النسخ
+        window.copyToClipboard = () => {
+            const el = document.getElementById('displayUID');
+            navigator.clipboard.writeText(el.innerText);
+            alert("تم نسخ الـ ID بنجاح!");
+        };
+    </script>
+</body>
+</html>
 
