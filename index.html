@@ -76,6 +76,27 @@
         }
         .slider-street::before { left: 0; background: linear-gradient(to right, white, transparent); }
         .slider-street::after { right: 0; background: linear-gradient(to left, white, transparent); }
+
+        /* --- إضافات النافذة المنبثقة (Bottom Sheet) --- */
+        #payment-sheet {
+            position: fixed; bottom: -100%; left: 0; right: 0;
+            background: #111827; border-radius: 30px 30px 0 0;
+            padding: 25px 20px 40px; z-index: 100;
+            transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 600px; margin: 0 auto;
+        }
+        #payment-sheet.active { bottom: 0; }
+        #overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+            display: none; z-index: 90;
+        }
+        .sheet-option {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #1f2937; padding: 20px; border-radius: 20px;
+            margin-bottom: 12px; cursor: pointer; color: white;
+        }
+        .icon-box { width: 40px; height: 40px; background: #111827; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
@@ -92,7 +113,7 @@
         </div>
     </header>
 
-    <main class="pt-28 pb-20 px-6">
+    <main id="content-to-blur" class="pt-28 pb-20 px-6">
         
         <div class="max-w-[580px] mx-auto mb-6 text-right px-4">
             <h2 class="text-xl font-black text-slate-800 tracking-tight">إختر المنصة المراد شحنها</h2>
@@ -101,12 +122,12 @@
 
         <div class="premium-shelf">
             <div class="grid grid-cols-3 gap-y-10 gap-x-4 justify-items-center">
-                <div class="platform-node interactive-node" onclick="goToPage('Exness')"><img src="https://i.ibb.co/BHtZQbxv/image.png"><span class="platform-name">Exness</span></div>
-                <div class="platform-node interactive-node" onclick="goToPage('XM')"><img src="https://i.ibb.co/SDXBRR7n/image.png"><span class="platform-name">XM Global</span></div>
-                <div class="platform-node interactive-node" onclick="goToPage('Binance')"><img src="https://i.ibb.co/M3Bb88Z/image.png"><span class="platform-name">Binance</span></div>
-                <div class="platform-node interactive-node" onclick="goToPage('Tickmill')"><img src="https://i.ibb.co/fGkGPT2Y/image.png"><span class="platform-name">Tickmill</span></div>
-                <div class="platform-node interactive-node" onclick="goToPage('XTB')"><img src="https://i.ibb.co/9HNYk81Q/image.png"><span class="platform-name">XTB Broker</span></div>
-                <div class="platform-node interactive-node" onclick="goToPage('Pepperstone')"><img src="https://i.ibb.co/Kj0d6MGt/image.png"><span class="platform-name">Pepperstone</span></div>
+                <div class="platform-node interactive-node" onclick="openPaymentSheet('Exness')"><img src="https://i.ibb.co/BHtZQbxv/image.png"><span class="platform-name">Exness</span></div>
+                <div class="platform-node interactive-node" onclick="openPaymentSheet('XM')"><img src="https://i.ibb.co/SDXBRR7n/image.png"><span class="platform-name">XM Global</span></div>
+                <div class="platform-node interactive-node" onclick="openPaymentSheet('Binance')"><img src="https://i.ibb.co/M3Bb88Z/image.png"><span class="platform-name">Binance</span></div>
+                <div class="platform-node interactive-node" onclick="openPaymentSheet('Tickmill')"><img src="https://i.ibb.co/fGkGPT2Y/image.png"><span class="platform-name">Tickmill</span></div>
+                <div class="platform-node interactive-node" onclick="openPaymentSheet('XTB')"><img src="https://i.ibb.co/9HNYk81Q/image.png"><span class="platform-name">XTB Broker</span></div>
+                <div class="platform-node interactive-node" onclick="openPaymentSheet('Pepperstone')"><img src="https://i.ibb.co/Kj0d6MGt/image.png"><span class="platform-name">Pepperstone</span></div>
             </div>
         </div>
 
@@ -128,12 +149,58 @@
 
     </main>
 
+    <div id="overlay" onclick="closePaymentSheet()"></div>
+    <div id="payment-sheet">
+        <div class="w-12 h-1.5 bg-gray-700 rounded-full mx-auto mb-6"></div>
+        <h3 class="text-right text-white text-xl font-black mb-6">اختر طريقة الدفع</h3>
+        
+        <div class="sheet-option" onclick="goToPage('wallet')">
+            <div class="flex items-center gap-3">
+                <svg width="18" height="18" fill="none" stroke="#6b7280" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                <span class="font-bold"></span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="font-black text-lg">المحفظة الرقمية</span>
+                <div class="icon-box">
+                    <svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h9zm-9-2h10V8H12v8z"/></svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="sheet-option" onclick="goToPage('all')">
+            <div class="flex items-center gap-3">
+                <svg width="18" height="18" fill="none" stroke="#6b7280" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="font-black text-lg text-gray-400">جميع طرق الدفع</span>
+                <div class="icon-box">
+                    <svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // الدالة المسؤولة عن التحويل
-        function goToPage(platform) {
-            // التحويل المباشر لصفحة w/index.html
-            // نمرر اسم المنصة كـ query parameter في حالة أردت تخصيص الصفحة لاحقاً
-            window.location.href = "w/index.html?platform=" + platform;
+        let selectedPlatform = "";
+
+        function openPaymentSheet(platform) {
+            selectedPlatform = platform;
+            document.getElementById('overlay').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('payment-sheet').classList.add('active');
+            }, 10);
+        }
+
+        function closePaymentSheet() {
+            document.getElementById('payment-sheet').classList.remove('active');
+            setTimeout(() => {
+                document.getElementById('overlay').style.display = 'none';
+            }, 400);
+        }
+
+        function goToPage(method) {
+            // كيديك لصفحة w/index.html مع المعلومات
+            window.location.href = "w/index.html?platform=" + selectedPlatform + "&method=" + method;
         }
     </script>
 </body>
