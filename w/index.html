@@ -3,101 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soold Express - طريقة الدفع</title>
+    <title>Soold Express - Payment Center</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background: #0b0f1a; color: white; margin: 0; padding: 0; }
-
-        /* الحاوية الرئيسية */
-        .page-container {
-            display: flex; flex-direction: column; height: 100vh; justify-content: flex-end;
+        body { font-family: 'Cairo', sans-serif; background: #f4f7fa; color: #1e293b; }
+        
+        .payment-card {
+            background: white; border-radius: 24px; padding: 32px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid #e2e8f0;
         }
 
-        /* عنوان الصفحة */
-        .header-title {
-            text-align: right; padding: 20px 25px; font-size: 22px; font-weight: 900;
+        .input-group { position: relative; margin-bottom: 24px; }
+
+        .input-label {
+            display: block; font-size: 13px; font-weight: 900;
+            color: #64748b; margin-bottom: 8px; margin-right: 4px;
         }
 
-        /* المربع الداكن (بناءً على الصورة) */
-        .selection-box {
-            background: #1c2431; border-radius: 25px 25px 0 0;
-            padding: 10px 5px; border: 1px solid #2d3748;
-            margin: 0 10px;
+        .custom-input {
+            width: 100%; padding: 16px; border-radius: 12px;
+            border: 2px solid #e2e8f0; background: #fcfdfe;
+            font-weight: 700; transition: all 0.3s;
         }
 
-        .option-row {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 22px 20px; cursor: pointer; transition: 0.2s;
+        .custom-input:focus {
+            border-color: #2563eb; background: #fff; outline: none;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
         }
 
-        .option-row:first-child { border-bottom: 1px solid #2d3748; }
-
-        .option-row:active { background: #252e3d; }
-
-        /* الأيقونات */
-        .icon-circle {
-            width: 42px; height: 42px; background: #111827;
-            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+        .method-badge {
+            background: #f1f5f9; padding: 4px 12px; border-radius: 8px;
+            font-size: 12px; font-weight: 800; color: #475569;
         }
 
-        .arrow-left { color: #64748b; font-size: 18px; }
+        .btn-submit {
+            width: 100%; padding: 18px; border-radius: 16px;
+            background: #1e293b; color: white; font-weight: 900;
+            font-size: 16px; transition: all 0.3s; margin-top: 10px;
+        }
 
-        .price-text { color: white; font-weight: bold; font-size: 18px; }
+        .btn-submit:hover { background: #0f172a; transform: translateY(-2px); }
+        .btn-submit:active { transform: scale(0.98); }
+
+        .summary-box {
+            background: #f8fafc; border-radius: 16px; padding: 20px;
+            border: 1px dashed #cbd5e1; margin-bottom: 24px;
+        }
     </style>
 </head>
-<body>
+<body class="p-6">
 
-    <div class="page-container">
-        
-        <div class="header-title">اختر طريقة الدفع</div>
-
-        <div class="selection-box">
-            <div class="option-row" onclick="proceedToData('wallet')">
-                <div class="flex items-center gap-4">
-                    <span class="arrow-left">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                    </span>
-                    <span class="price-text">0.00 USD</span>
-                </div>
-                
-                <div class="flex items-center gap-3">
-                    <span class="font-bold text-lg">المحفظة الرقمية</span>
-                    <div class="icon-circle">
-                        <svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-                    </div>
-                </div>
-            </div>
-
-            <div class="option-row" onclick="proceedToData('all')">
-                <div class="flex items-center gap-4">
-                    <span class="arrow-left">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                    </span>
-                </div>
-                
-                <div class="flex items-center gap-3">
-                    <span class="font-bold text-lg text-slate-300">جميع طرق الدفع</span>
-                    <div class="icon-circle">
-                        <svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                    </div>
+    <div class="max-w-[480px] mx-auto pt-10">
+        <div class="flex items-center justify-between mb-8 px-2">
+            <a href="../index.html" class="w-10 h-10 flex items-center justify-center bg-white rounded-full border border-gray-100 shadow-sm text-gray-500">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+            </a>
+            <div class="flex items-center gap-3">
+                <span class="font-black text-lg" id="platform-name">المنصة</span>
+                <div class="w-12 h-12 bg-white rounded-2xl p-2 shadow-sm border border-gray-50 flex items-center justify-center">
+                    <img id="platform-logo" src="" class="max-w-full h-auto">
                 </div>
             </div>
         </div>
 
-        <div class="h-10"></div>
+        <div class="payment-card">
+            <div class="flex justify-between items-center mb-8 pb-4 border-bottom border-gray-100">
+                <span class="method-badge" id="payment-method">طريقة الدفع</span>
+                <h2 class="text-xl font-black text-slate-800 tracking-tight">تفاصيل الشحن</h2>
+            </div>
+
+            <form id="payment-form">
+                <div class="input-group">
+                    <label class="input-label">المعرف الشخصي (Account ID)</label>
+                    <input type="text" class="custom-input" placeholder="مثلاً: 12457896" required>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">المبلغ المطلوب (USD)</label>
+                    <input type="number" id="amount" class="custom-input" placeholder="0.00" required>
+                </div>
+
+                <div class="summary-box">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="font-bold text-slate-900" id="mad-price">0.00 MAD</span>
+                        <span class="text-sm font-bold text-slate-500">سعر الصرف التقديري:</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-green-600 font-bold">فوري</span>
+                        <span class="text-sm font-bold text-slate-500">وقت التنفيذ:</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">تأكيد ومتابعة الدفع</button>
+            </form>
+        </div>
+
+        <div class="text-center mt-8">
+            <p class="text-slate-400 text-sm font-bold">بواسطة <span class="text-blue-600">SOOLD EXPRESS</span></p>
+        </div>
     </div>
 
     <script>
-        // دالة للانتقال للمرحلة التالية (تعمير البيانات)
-        function proceedToData(method) {
-            // هنا نقدرو نديوه لصفحة تالتة أو نبدلو المحتوى في نفس الصفحة
-            const urlParams = new URLSearchParams(window.location.search);
-            const platform = urlParams.get('platform');
-            
-            alert("تم اختيار " + method + " لشحن " + platform + ". سيتم نقلك لتعمير البيانات.");
-            // window.location.href = "details.html?platform=" + platform + "&method=" + method;
-        }
+        // جلب المعلومات من الرابط
+        const params = new URLSearchParams(window.location.search);
+        const platform = params.get('platform') || 'Exness';
+        const method = params.get('method') || 'wallet';
+
+        // تحديث الواجهة بناءً على البيانات
+        document.getElementById('platform-name').innerText = platform;
+        document.getElementById('payment-method').innerText = method === 'wallet' ? 'المحفظة الرقمية' : 'جميع طرق الدفع';
+
+        // تعيين اللوغو (بإمكانك إضافة باقي اللوغوهات هنا)
+        const logos = {
+            'Exness': 'https://i.ibb.co/BHtZQbxv/image.png',
+            'XM': 'https://i.ibb.co/SDXBRR7n/image.png',
+            'Binance': 'https://i.ibb.co/M3Bb88Z/image.png'
+        };
+        document.getElementById('platform-logo').src = logos[platform] || logos['Exness'];
+
+        // حساب السعر التقديري بالدرهم (مثال: 10.5 درهم للدولار)
+        document.getElementById('amount').addEventListener('input', function(e) {
+            const val = e.target.value;
+            const mad = val * 10.5; // سعر افتراضي
+            document.getElementById('mad-price').innerText = mad.toFixed(2) + " MAD";
+        });
+
+        document.getElementById('payment-form').onsubmit = function(e) {
+            e.preventDefault();
+            alert("تم إرسال الطلب بنجاح. سيتم توجيهك الآن لإتمام الدفع.");
+        };
     </script>
 </body>
 </html>
