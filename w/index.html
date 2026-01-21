@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soold Express - طريقة الدفع</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background: #0b0f1a; color: white; margin: 0; padding: 0; }
+
+        /* الحاوية الرئيسية */
+        .page-container {
+            display: flex; flex-direction: column; height: 100vh; justify-content: flex-end;
+        }
+
+        /* عنوان الصفحة */
+        .header-title {
+            text-align: right; padding: 20px 25px; font-size: 22px; font-weight: 900;
+        }
+
+        /* المربع الداكن (بناءً على الصورة) */
+        .selection-box {
+            background: #1c2431; border-radius: 25px 25px 0 0;
+            padding: 10px 5px; border: 1px solid #2d3748;
+            margin: 0 10px;
+        }
+
+        .option-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 22px 20px; cursor: pointer; transition: 0.2s;
+        }
+
+        .option-row:first-child { border-bottom: 1px solid #2d3748; }
+
+        .option-row:active { background: #252e3d; }
+
+        /* الأيقونات */
+        .icon-circle {
+            width: 42px; height: 42px; background: #111827;
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+        }
+
+        .arrow-left { color: #64748b; font-size: 18px; }
+
+        .price-text { color: white; font-weight: bold; font-size: 18px; }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        
+        <div class="header-title">اختر طريقة الدفع</div>
+
+        <div class="selection-box">
+            <div class="option-row" onclick="proceedToData('wallet')">
+                <div class="flex items-center gap-4">
+                    <span class="arrow-left">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                    </span>
+                    <span class="price-text">0.00 USD</span>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <span class="font-bold text-lg">المحفظة الرقمية</span>
+                    <div class="icon-circle">
+                        <svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="option-row" onclick="proceedToData('all')">
+                <div class="flex items-center gap-4">
+                    <span class="arrow-left">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                    </span>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <span class="font-bold text-lg text-slate-300">جميع طرق الدفع</span>
+                    <div class="icon-circle">
+                        <svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="h-10"></div>
+    </div>
+
+    <script>
+        // دالة للانتقال للمرحلة التالية (تعمير البيانات)
+        function proceedToData(method) {
+            // هنا نقدرو نديوه لصفحة تالتة أو نبدلو المحتوى في نفس الصفحة
+            const urlParams = new URLSearchParams(window.location.search);
+            const platform = urlParams.get('platform');
+            
+            alert("تم اختيار " + method + " لشحن " + platform + ". سيتم نقلك لتعمير البيانات.");
+            // window.location.href = "details.html?platform=" + platform + "&method=" + method;
+        }
+    </script>
+</body>
+</html>
