@@ -9,33 +9,34 @@
     <style>
         body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; padding: 20px; }
         .glass-card { background: white; border-radius: 24px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); max-width: 450px; margin: auto; }
-        .auto-tag { background: #e0f2fe; color: #0369a1; padding: 8px 15px; border-radius: 10px; font-weight: bold; font-size: 14px; display: inline-block; margin-bottom: 20px; }
+        .info-tag { background: #eff6ff; color: #1e40af; padding: 10px; border-radius: 12px; font-weight: 700; text-align: center; margin-bottom: 20px; border: 1px solid #dbeafe; }
         .input-box { width: 100%; background: #f1f5f9; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 15px; text-align: right; outline: none; }
+        .input-box:focus { border-color: #2563eb; background: white; }
         .btn-send { width: 100%; background: #2563eb; color: white; padding: 16px; border-radius: 15px; font-weight: 900; cursor: pointer; transition: 0.3s; }
+        .btn-send:disabled { background: #94a3b8; }
     </style>
 </head>
 <body>
 
     <div class="glass-card mt-10 text-right">
-        <h2 class="text-2xl font-black mb-6 text-slate-800">إكمال عملية الإيداع</h2>
+        <h2 class="text-2xl font-black mb-6 text-slate-800 text-center">تأكيد عملية الإيداع</h2>
 
         <label class="block text-sm font-bold text-slate-500 mb-1">المنصة المختارة (تلقائي):</label>
-        <div id="platform-display" class="auto-tag">جاري التعرف...</div>
+        <div id="platform-display" class="info-tag">جاري التعرف...</div>
 
-        <label class="block text-sm font-bold text-slate-500 mb-1">المستخدم (User)</label>
-        <input type="text" id="user" class="input-box" placeholder="أدخل اسم المستخدم">
+        <label class="block text-sm font-bold text-slate-500 mb-1">المستخدم (User ID)</label>
+        <input type="text" id="user" class="input-box" placeholder="أدخل اسمك أو معرفك">
 
         <label class="block text-sm font-bold text-slate-500 mb-1">المبلغ (Monton)</label>
-        <input type="number" id="monton" class="input-box" placeholder="0.00">
+        <input type="number" id="monton" class="input-box" placeholder="0.00 $">
 
-        <button id="submitBtn" onclick="sendData()" class="btn-send">تأكيد وإرسال</button>
+        <button id="submitBtn" onclick="sendData()" class="btn-send">تأكيد وإرسال البيانات</button>
     </div>
 
     <script>
-        // 1. جبد المنصة من الرابط أوتوماتيكياً
-        // مثال: لو الرابط هو complete.html?p=Bitcoin غتطلع Bitcoin
+        // 1. التعرف التلقائي على المنصة من رابط الصفحة (مثال: complete.html?p=Bitcoin)
         const urlParams = new URLSearchParams(window.location.search);
-        const platformAuto = urlParams.get('p') || "General"; 
+        const platformAuto = urlParams.get('p') || "Unknown"; 
         document.getElementById('platform-display').innerText = platformAuto;
 
         async function sendData() {
@@ -51,19 +52,22 @@
             btn.disabled = true;
             btn.innerHTML = "جاري الإرسال...";
 
+            // رابط الـ App Script ديالك
             const scriptURL = 'https://script.google.com/macros/s/AKfycbyC2mrkugWqYXX-3t771rqUn88csXXZk1XenLJhX-if7wMDhvJh_zBh8f7nqa4bUtQK/exec';
             
-            // صيفط platformAuto اللي تجبدات تلقائياً
-            const finalURL = `${scriptURL}?user=${encodeURIComponent(user)}&platforme=${encodeURIComponent(platformAuto)}&monton=${encodeURIComponent(monton)}`;
+            // تجميع البيانات لإرسالها حسب ترتيب الأعمدة (A:Date, B:Platforme, C:Monton, D:User)
+            const finalURL = `${scriptURL}?platforme=${encodeURIComponent(platformAuto)}&monton=${encodeURIComponent(monton)}&user=${encodeURIComponent(user)}`;
 
             try {
                 await fetch(finalURL, { method: 'POST', mode: 'no-cors' });
-                alert("تم إرسال طلبك بنجاح لمنصة " + platformAuto);
-                window.location.href = '../index.html';
+
+                alert("تم الإرسال بنجاح! شكراً لك.");
+                window.location.href = '../index.html'; 
+
             } catch (error) {
-                alert("خطأ، حاول ثانية");
+                alert("خطأ في الاتصال، حاول مرة أخرى.");
                 btn.disabled = false;
-                btn.innerHTML = "تأكيد وإرسال";
+                btn.innerHTML = "تأكيد وإرسال البيانات";
             }
         }
     </script>
