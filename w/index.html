@@ -34,7 +34,7 @@
         </header>
 
         <div class="px-5 space-y-3">
-            <div class="premium-card" onclick="goTo('btc.html')">
+            <div class="premium-card" onclick="goTo('btc.html', 'BTC')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Bitcoin (BTC)</h3><span class="network-tag">Btc</span></div>
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div class="premium-card" onclick="goTo('eth.html')">
+            <div class="premium-card" onclick="goTo('eth.html', 'ERC20')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Ether (ETH)</h3><span class="network-tag">ERC20</span></div>
@@ -50,7 +50,7 @@
                 </div>
             </div>
 
-            <div class="premium-card" onclick="goTo('usdt-bep20.html')">
+            <div class="premium-card" onclick="goTo('usdt-bep20.html', 'BEP20')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Tether (USDT)</h3><span class="network-tag">BEP20</span></div>
@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <div class="premium-card" onclick="goTo('usdt-erc20.html')">
+            <div class="premium-card" onclick="goTo('usdt-erc20.html', 'ERC20')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Tether (USDT)</h3><span class="network-tag">ERC20</span></div>
@@ -66,7 +66,7 @@
                 </div>
             </div>
 
-            <div class="premium-card" onclick="goTo('usdt-trc20.html')">
+            <div class="premium-card" onclick="goTo('usdt-trc20.html', 'TRC20')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Tether (USDT)</h3><span class="network-tag">TRC20</span></div>
@@ -74,7 +74,7 @@
                 </div>
             </div>
 
-            <div class="premium-card" onclick="goTo('trx.html')">
+            <div class="premium-card" onclick="goTo('trx.html', 'TRC20')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Tronix (TRX)</h3><span class="network-tag">TRC20</span></div>
@@ -82,7 +82,7 @@
                 </div>
             </div>
 
-            <div class="premium-card" onclick="goTo('usdc-bep20.html')">
+            <div class="premium-card" onclick="goTo('usdc-bep20.html', 'BEP20')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">USD Coin (USDC)</h3><span class="network-tag">BEP20</span></div>
@@ -90,7 +90,7 @@
                 </div>
             </div>
 
-            <div class="premium-card" onclick="goTo('usdc-erc20.html')">
+            <div class="premium-card" onclick="goTo('usdc-erc20.html', 'ERC20')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">USD Coin (USDC)</h3><span class="network-tag">ERC20</span></div>
@@ -109,11 +109,12 @@
     </div>
 
     <script>
-        // الوظيفة اللي كتخلي 'platform' تدوز من صفحة لصفحة بلا ما تضيع
-        function goTo(page) {
+        // الوظيفة المعدلة لتدوير platform و symbol معاً
+        function goTo(page, symbol) {
             const params = new URLSearchParams(window.location.search);
             const currentPlatform = params.get('platform') || "General";
-            window.location.href = page + "?platform=" + encodeURIComponent(currentPlatform);
+            // نمرر الصفحة، المنصة، والرمز (الشبكة) في الرابط
+            window.location.href = page + "?platform=" + encodeURIComponent(currentPlatform) + "&symbol=" + encodeURIComponent(symbol);
         }
     </script>
 </body>
