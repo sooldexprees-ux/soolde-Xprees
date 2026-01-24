@@ -21,9 +21,9 @@
                 <h1 class="text-2xl font-black text-slate-900 tracking-tight">إيداع بيتكويـن</h1>
                 <p class="text-[11px] font-extrabold text-blue-600 uppercase tracking-widest">Bitcoin Network (BTC)</p>
             </div>
-            <a href="index.html" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl border border-slate-100 shadow-sm">
+            <button onclick="goBack()" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl border border-slate-100 shadow-sm">
                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-            </a>
+            </button>
         </div>
 
         <div class="glass-card p-8 mb-6 text-center">
@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        <button onclick="location.href='complete.html'" class="w-full bg-[#2563eb] text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-blue-100 active:scale-[0.98] transition-all">
+        <button onclick="goToComplete()" class="w-full bg-[#2563eb] text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-blue-100 active:scale-[0.98] transition-all">
             لقد قمت بالتحويل بنجاح
         </button>
 
@@ -62,10 +62,28 @@
     </div>
 
     <script>
+        // دالة لجلب المنصة الحالية من الرابط
+        function getPlatform() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('platform') || "General";
+        }
+
         function copyAddr() {
             const addr = document.getElementById('wallet-id').innerText;
             navigator.clipboard.writeText(addr);
             alert("تم نسخ العنوان!");
+        }
+
+        // إرسال المنصة لصفحة التأكيد
+        function goToComplete() {
+            const platform = getPlatform();
+            window.location.href = 'complete.html?platform=' + encodeURIComponent(platform);
+        }
+
+        // الرجوع لصفحة العملات مع الحفاظ على المنصة
+        function goBack() {
+            const platform = getPlatform();
+            window.location.href = 'index.html?platform=' + encodeURIComponent(platform);
         }
     </script>
 </body>
