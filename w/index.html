@@ -2,137 +2,205 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soold Express - Payment Center</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Soold Express - إيداع العملات الرقمية</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background: #f4f7fa; color: #1e293b; }
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background-color: #fcfcfc; 
+            color: #1e293b;
+        }
         
-        .payment-card {
-            background: white; border-radius: 24px; padding: 32px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid #e2e8f0;
+        /* تصميم كارت العملة الاحترافي */
+        .coin-card {
+            background: white; 
+            border: 1px solid #f1f5f9;
+            border-radius: 24px; 
+            padding: 16px 20px; 
+            margin-bottom: 12px;
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            cursor: pointer;
+        }
+        
+        .coin-card:active { 
+            transform: scale(0.97); 
+            background-color: #f8fafc;
         }
 
-        .input-group { position: relative; margin-bottom: 24px; }
-
-        .input-label {
-            display: block; font-size: 13px; font-weight: 900;
-            color: #64748b; margin-bottom: 8px; margin-right: 4px;
+        /* ستايل زر الرجوع الصغير (الأسهم في الجانب) */
+        .action-arrow {
+            width: 36px; 
+            height: 36px; 
+            background-color: #f1f5f9;
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            color: #94a3b8;
         }
 
-        .custom-input {
-            width: 100%; padding: 16px; border-radius: 12px;
-            border: 2px solid #e2e8f0; background: #fcfdfe;
-            font-weight: 700; transition: all 0.3s;
+        .coin-logo { 
+            width: 44px; 
+            height: 44px; 
+            object-fit: contain; 
         }
 
-        .custom-input:focus {
-            border-color: #2563eb; background: #fff; outline: none;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        .network-pill {
+            font-size: 10px; 
+            font-weight: 800; 
+            color: #94a3b8;
+            background: #f8fafc; 
+            padding: 2px 10px; 
+            border-radius: 20px;
+            margin-top: 4px; 
+            display: inline-block;
+            text-transform: uppercase;
         }
-
-        .method-badge {
-            background: #f1f5f9; padding: 4px 12px; border-radius: 8px;
-            font-size: 12px; font-weight: 800; color: #475569;
-        }
-
-        .btn-submit {
-            width: 100%; padding: 18px; border-radius: 16px;
-            background: #1e293b; color: white; font-weight: 900;
-            font-size: 16px; transition: all 0.3s; margin-top: 10px;
-        }
-
-        .btn-submit:hover { background: #0f172a; transform: translateY(-2px); }
-        .btn-submit:active { transform: scale(0.98); }
-
-        .summary-box {
-            background: #f8fafc; border-radius: 16px; padding: 20px;
-            border: 1px dashed #cbd5e1; margin-bottom: 24px;
+        
+        .coin-name { 
+            font-size: 17px; 
+            font-weight: 900; 
+            color: #0f172a; 
         }
     </style>
 </head>
-<body class="p-6">
+<body class="p-5">
 
-    <div class="max-w-[480px] mx-auto pt-10">
-        <div class="flex items-center justify-between mb-8 px-2">
-            <a href="../index.html" class="w-10 h-10 flex items-center justify-center bg-white rounded-full border border-gray-100 shadow-sm text-gray-500">
-                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+    <div class="max-w-[500px] mx-auto">
+        
+        <header class="flex items-center justify-between mb-10 mt-4 px-2">
+            <div class="text-right">
+                <h1 class="text-3xl font-black text-slate-900">إيداع</h1>
+                <p class="text-xs text-slate-400 font-bold mt-1">اختر الأصول الرقمية والشبكة للمتابعة</p>
+            </div>
+            <a href="index.html" class="w-10 h-10 flex items-center justify-center bg-white border border-gray-100 shadow-sm rounded-full">
+                <svg width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
             </a>
-            <div class="flex items-center gap-3">
-                <span class="font-black text-lg" id="platform-name">المنصة</span>
-                <div class="w-12 h-12 bg-white rounded-2xl p-2 shadow-sm border border-gray-50 flex items-center justify-center">
-                    <img id="platform-logo" src="" class="max-w-full h-auto">
+        </header>
+
+        <div class="space-y-3">
+
+            <div class="coin-card" onclick="location.href='dep-btc.html'">
+                <div class="action-arrow">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                </div>
+                <div class="flex items-center gap-4 text-right">
+                    <div>
+                        <h3 class="coin-name">Bitcoin (BTC)</h3>
+                        <span class="network-pill">MAIN NETWORK</span>
+                    </div>
+                    <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" class="coin-logo">
                 </div>
             </div>
-        </div>
 
-        <div class="payment-card">
-            <div class="flex justify-between items-center mb-8 pb-4 border-bottom border-gray-100">
-                <span class="method-badge" id="payment-method">طريقة الدفع</span>
-                <h2 class="text-xl font-black text-slate-800 tracking-tight">تفاصيل الشحن</h2>
+            <div class="coin-card" onclick="location.href='dep-eth.html'">
+                <div class="action-arrow">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                </div>
+                <div class="flex items-center gap-4 text-right">
+                    <div>
+                        <h3 class="coin-name">Ether (ETH)</h3>
+                        <span class="network-pill">ERC20 Network</span>
+                    </div>
+                    <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" class="coin-logo">
+                </div>
             </div>
 
-            <form id="payment-form">
-                <div class="input-group">
-                    <label class="input-label">المعرف الشخصي (Account ID)</label>
-                    <input type="text" class="custom-input" placeholder="مثلاً: 12457896" required>
+            <div class="coin-card" onclick="location.href='dep-usdt-bep20.html'">
+                <div class="action-arrow">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
                 </div>
-
-                <div class="input-group">
-                    <label class="input-label">المبلغ المطلوب (USD)</label>
-                    <input type="number" id="amount" class="custom-input" placeholder="0.00" required>
-                </div>
-
-                <div class="summary-box">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="font-bold text-slate-900" id="mad-price">0.00 MAD</span>
-                        <span class="text-sm font-bold text-slate-500">سعر الصرف التقديري:</span>
+                <div class="flex items-center gap-4 text-right">
+                    <div>
+                        <h3 class="coin-name">Tether (USDT)</h3>
+                        <span class="network-pill">BEP20</span>
                     </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-green-600 font-bold">فوري</span>
-                        <span class="text-sm font-bold text-slate-500">وقت التنفيذ:</span>
-                    </div>
+                    <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" class="coin-logo">
                 </div>
+            </div>
 
-                <button type="submit" class="btn-submit">تأكيد ومتابعة الدفع</button>
-            </form>
+            <div class="coin-card" onclick="location.href='dep-usdt-erc20.html'">
+                <div class="action-arrow">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                </div>
+                <div class="flex items-center gap-4 text-right">
+                    <div>
+                        <h3 class="coin-name">Tether (USDT)</h3>
+                        <span class="network-pill">ERC20</span>
+                    </div>
+                    <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" class="coin-logo">
+                </div>
+            </div>
+
+            <div class="coin-card" onclick="location.href='dep-usdt-trc20.html'">
+                <div class="action-arrow">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                </div>
+                <div class="flex items-center gap-4 text-right">
+                    <div>
+                        <h3 class="coin-name">Tether (USDT)</h3>
+                        <span class="network-pill">TRC20</span>
+                    </div>
+                    <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" class="coin-logo">
+                </div>
+            </div>
+
+            <div class="coin-card" onclick="location.href='dep-trx.html'">
+                <div class="action-arrow">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                </div>
+                <div class="flex items-center gap-4 text-right">
+                    <div>
+                        <h3 class="coin-name">Tronix (TRX)</h3>
+                        <span class="network-pill">TRC20</span>
+                    </div>
+                    <img src="https://cryptologos.cc/logos/tron-trx-logo.png" class="coin-logo">
+                </div>
+            </div>
+
+            <div class="coin-card" onclick="location.href='dep-usdc-bep20.html'">
+                <div class="action-arrow">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                </div>
+                <div class="flex items-center gap-4 text-right">
+                    <div>
+                        <h3 class="coin-name">USD Coin (USDC)</h3>
+                        <span class="network-pill">BEP20</span>
+                    </div>
+                    <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" class="coin-logo">
+                </div>
+            </div>
+
+            <div class="coin-card" onclick="location.href='dep-usdc-erc20.html'">
+                <div class="action-arrow">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                </div>
+                <div class="flex items-center gap-4 text-right">
+                    <div>
+                        <h3 class="coin-name">USD Coin (USDC)</h3>
+                        <span class="network-pill">ERC20</span>
+                    </div>
+                    <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" class="coin-logo">
+                </div>
+            </div>
+
         </div>
 
-        <div class="text-center mt-8">
-            <p class="text-slate-400 text-sm font-bold">بواسطة <span class="text-blue-600">SOOLD EXPRESS</span></p>
-        </div>
+        <footer class="mt-20 text-center pb-10">
+            <div class="flex flex-col items-center">
+                <div class="h-[1px] w-8 bg-slate-200 mb-4"></div>
+                <h2 class="text-[15px] font-black text-slate-800 tracking-[3px] uppercase">Soold Express</h2>
+                <p class="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-widest">Digital Assets Management</p>
+            </div>
+        </footer>
+
     </div>
 
-    <script>
-        // جلب المعلومات من الرابط
-        const params = new URLSearchParams(window.location.search);
-        const platform = params.get('platform') || 'Exness';
-        const method = params.get('method') || 'wallet';
-
-        // تحديث الواجهة بناءً على البيانات
-        document.getElementById('platform-name').innerText = platform;
-        document.getElementById('payment-method').innerText = method === 'wallet' ? 'المحفظة الرقمية' : 'جميع طرق الدفع';
-
-        // تعيين اللوغو (بإمكانك إضافة باقي اللوغوهات هنا)
-        const logos = {
-            'Exness': 'https://i.ibb.co/BHtZQbxv/image.png',
-            'XM': 'https://i.ibb.co/SDXBRR7n/image.png',
-            'Binance': 'https://i.ibb.co/M3Bb88Z/image.png'
-        };
-        document.getElementById('platform-logo').src = logos[platform] || logos['Exness'];
-
-        // حساب السعر التقديري بالدرهم (مثال: 10.5 درهم للدولار)
-        document.getElementById('amount').addEventListener('input', function(e) {
-            const val = e.target.value;
-            const mad = val * 10.5; // سعر افتراضي
-            document.getElementById('mad-price').innerText = mad.toFixed(2) + " MAD";
-        });
-
-        document.getElementById('payment-form').onsubmit = function(e) {
-            e.preventDefault();
-            alert("تم إرسال الطلب بنجاح. سيتم توجيهك الآن لإتمام الدفع.");
-        };
-    </script>
 </body>
 </html>
