@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>المحافظ الرقمية - Soold Express</title>
+    <title>Soold Express - بوابة الإيداع</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         body { 
             font-family: 'Cairo', sans-serif; 
-            background-color: #fcfcfc; 
+            background-color: #f8fafc; 
             color: #1e293b;
+            padding-bottom: 60px;
         }
         
-        /* تصميم بطاقة العملة الاحترافي */
-        .coin-card {
+        .premium-card {
             background: white; 
             border: 1px solid #f1f5f9;
             border-radius: 24px; 
@@ -28,30 +28,34 @@
             cursor: pointer;
         }
         
-        .coin-card:active { 
-            transform: scale(0.97); 
-            background-color: #f8fafc;
+        .premium-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 12px 20px rgba(59, 130, 246, 0.06);
+            transform: translateY(-3px);
         }
 
-        /* ستايل أيقونة السهم الجانبية */
-        .action-arrow {
-            width: 36px; 
-            height: 36px; 
-            background-color: #f1f5f9;
-            border-radius: 12px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            color: #94a3b8;
+        .deposit-btn {
+            background: #f1f5f9; 
+            color: #64748b;
+            font-size: 13px; 
+            font-weight: 800;
+            padding: 8px 18px; 
+            border-radius: 14px;
+            transition: 0.3s;
+        }
+
+        .premium-card:hover .deposit-btn {
+            background: #3b82f6; 
+            color: white;
         }
 
         .coin-logo { 
-            width: 44px; 
-            height: 44px; 
+            width: 46px; 
+            height: 46px; 
             object-fit: contain; 
         }
 
-        .network-pill {
+        .network-tag {
             font-size: 10px; 
             font-weight: 800; 
             color: #94a3b8;
@@ -60,7 +64,6 @@
             border-radius: 20px;
             margin-top: 4px; 
             display: inline-block;
-            text-transform: uppercase;
         }
         
         .coin-name { 
@@ -68,135 +71,100 @@
             font-weight: 900; 
             color: #0f172a; 
         }
+
+        .header-bg {
+            background: linear-gradient(180deg, #ffffff 0%, rgba(248, 250, 252, 0) 100%);
+            padding: 40px 20px 20px;
+        }
     </style>
 </head>
-<body class="p-5">
+<body>
 
     <div class="max-w-[500px] mx-auto">
         
-        <header class="flex items-center justify-between mb-10 mt-4 px-2">
-            <div class="text-right">
-                <h1 class="text-3xl font-black text-slate-900">المحفظة الرقمية</h1>
-                <p class="text-[11px] text-slate-400 font-bold mt-1">اختر العملة والشبكة لإتمام الإيداع</p>
+        <header class="header-bg text-right mb-6">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h1 class="text-4xl font-black text-slate-900 tracking-tight">إيداع</h1>
+                    <p class="text-sm text-slate-400 font-bold mt-1">اختر العملة والشبكة المفضلة</p>
+                </div>
+                <a href="../index.html" class="w-12 h-12 flex items-center justify-center bg-white shadow-sm border border-slate-100 rounded-2xl">
+                    <svg width="24" height="24" fill="none" stroke="#3b82f6" stroke-width="3" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+                </a>
             </div>
-            <a href="../index.html" class="w-10 h-10 flex items-center justify-center bg-white border border-gray-100 shadow-sm rounded-full">
-                <svg width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-            </a>
         </header>
 
-        <div class="space-y-3">
-
-            <div class="coin-card" onclick="location.href='btc.html'">
-                <div class="action-arrow">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                </div>
+        <div class="px-5 space-y-3">
+            <div class="premium-card" onclick="location.href='dep-btc.html'">
+                <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
-                    <div>
-                        <h3 class="coin-name">Bitcoin (BTC)</h3>
-                        <span class="network-pill">MAIN NETWORK</span>
-                    </div>
+                    <div><h3 class="coin-name">Bitcoin (BTC)</h3><span class="network-tag">MAIN NETWORK</span></div>
                     <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" class="coin-logo">
                 </div>
             </div>
 
-            <div class="coin-card" onclick="location.href='eth.html'">
-                <div class="action-arrow">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                </div>
+            <div class="premium-card" onclick="location.href='dep-eth.html'">
+                <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
-                    <div>
-                        <h3 class="coin-name">Ether (ETH)</h3>
-                        <span class="network-pill">ERC20 Network</span>
-                    </div>
+                    <div><h3 class="coin-name">Ether (ETH)</h3><span class="network-tag">ERC20</span></div>
                     <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" class="coin-logo">
                 </div>
             </div>
 
-            <div class="coin-card" onclick="location.href='usdt-bep20.html'">
-                <div class="action-arrow">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                </div>
+            <div class="premium-card" onclick="location.href='dep-usdt-bep20.html'">
+                <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
-                    <div>
-                        <h3 class="coin-name">Tether (USDT)</h3>
-                        <span class="network-pill">BEP20</span>
-                    </div>
+                    <div><h3 class="coin-name">Tether (USDT)</h3><span class="network-tag">BEP20</span></div>
                     <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" class="coin-logo">
                 </div>
             </div>
 
-            <div class="coin-card" onclick="location.href='usdt-erc20.html'">
-                <div class="action-arrow">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                </div>
+            <div class="premium-card" onclick="location.href='dep-usdt-erc20.html'">
+                <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
-                    <div>
-                        <h3 class="coin-name">Tether (USDT)</h3>
-                        <span class="network-pill">ERC20</span>
-                    </div>
+                    <div><h3 class="coin-name">Tether (USDT)</h3><span class="network-tag">ERC20</span></div>
                     <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" class="coin-logo">
                 </div>
             </div>
 
-            <div class="coin-card" onclick="location.href='usdt-trc20.html'">
-                <div class="action-arrow">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                </div>
+            <div class="premium-card" onclick="location.href='dep-usdt-trc20.html'">
+                <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
-                    <div>
-                        <h3 class="coin-name">Tether (USDT)</h3>
-                        <span class="network-pill">TRC20</span>
-                    </div>
+                    <div><h3 class="coin-name">Tether (USDT)</h3><span class="network-tag">TRC20</span></div>
                     <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" class="coin-logo">
                 </div>
             </div>
 
-            <div class="coin-card" onclick="location.href='trx.html'">
-                <div class="action-arrow">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                </div>
+            <div class="premium-card" onclick="location.href='dep-trx.html'">
+                <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
-                    <div>
-                        <h3 class="coin-name">Tronix (TRX)</h3>
-                        <span class="network-pill">TRC20</span>
-                    </div>
+                    <div><h3 class="coin-name">Tronix (TRX)</h3><span class="network-tag">TRC20</span></div>
                     <img src="https://cryptologos.cc/logos/tron-trx-logo.png" class="coin-logo">
                 </div>
             </div>
 
-            <div class="coin-card" onclick="location.href='usdc-bep20.html'">
-                <div class="action-arrow">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                </div>
+            <div class="premium-card" onclick="location.href='dep-usdc-bep20.html'">
+                <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
-                    <div>
-                        <h3 class="coin-name">USD Coin (USDC)</h3>
-                        <span class="network-pill">BEP20</span>
-                    </div>
+                    <div><h3 class="coin-name">USD Coin (USDC)</h3><span class="network-tag">BEP20</span></div>
                     <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" class="coin-logo">
                 </div>
             </div>
 
-            <div class="coin-card" onclick="location.href='usdc-erc20.html'">
-                <div class="action-arrow">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                </div>
+            <div class="premium-card" onclick="location.href='dep-usdc-erc20.html'">
+                <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
-                    <div>
-                        <h3 class="coin-name">USD Coin (USDC)</h3>
-                        <span class="network-pill">ERC20</span>
-                    </div>
+                    <div><h3 class="coin-name">USD Coin (USDC)</h3><span class="network-tag">ERC20</span></div>
                     <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" class="coin-logo">
                 </div>
             </div>
-
         </div>
 
-        <footer class="mt-20 text-center pb-10">
-            <div class="flex flex-col items-center">
-                <div class="h-[1px] w-8 bg-slate-200 mb-4"></div>
-                <h2 class="text-[15px] font-black text-slate-800 tracking-[3px] uppercase">Soold Express</h2>
-                <p class="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-widest">Digital Assets Management</p>
+        <footer class="mt-20 text-center">
+            <div class="flex flex-col items-center gap-2">
+                <div class="h-[1px] w-12 bg-slate-200 mb-4"></div>
+                <h2 class="text-[14px] font-black text-slate-800 tracking-[4px] uppercase">Soold Express</h2>
+                <p class="text-[9px] font-bold text-slate-400 tracking-[1px]">SECURE DIGITAL ASSETS GATEWAY</p>
             </div>
         </footer>
 
