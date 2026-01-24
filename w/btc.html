@@ -56,7 +56,6 @@
         }
         .copy-btn:active { transform: scale(0.9); background: #f1f5f9; }
         
-        /* زر إكمال العملية */
         .primary-btn {
             width: 100%;
             background: #2563eb;
@@ -91,7 +90,7 @@
                 <h1 class="text-[32px] font-[900] text-slate-900 leading-none uppercase tracking-tight">BITCOIN</h1>
                 <p class="text-[14px] font-bold text-blue-600 mt-2 uppercase tracking-wide">BITCOIN (BTC)</p>
             </div>
-            <a href="../index.html" class="w-12 h-12 flex items-center justify-center bg-white border border-slate-100 shadow-sm rounded-2xl">
+            <a href="index.html" class="w-12 h-12 flex items-center justify-center bg-white border border-slate-100 shadow-sm rounded-2xl active:scale-90 transition-transform">
                 <svg width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="3" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
             </a>
         </header>
@@ -99,7 +98,7 @@
         <div class="main-card">
             <div class="flex justify-center mb-6">
                 <div class="w-20 h-20 bg-[#f7931a] rounded-full flex items-center justify-center shadow-lg shadow-orange-200">
-                    <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=024" class="w-12 h-12 brightness-0 invert" alt="BTC">
+                    <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" class="w-12 h-12 brightness-0 invert" alt="BTC">
                 </div>
             </div>
             
@@ -114,7 +113,7 @@
         <div class="info-card">
             <label class="block text-right text-[12px] font-black text-slate-400 uppercase mb-3 mr-1 tracking-wider">Wallet Address</label>
             <div class="flex items-center gap-3">
-                <div id="wallet-addr" class="address-box flex-1">
+                <div id="wallet-addr" class="address-box flex-1 text-center">
                     1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
                 </div>
                 <button onclick="copyAddress()" class="copy-btn">
