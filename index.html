@@ -12,11 +12,11 @@
         /* حاوية المنصات التفاعلية */
         .premium-shelf {
             background: #ffffff; border-radius: 50px; padding: 40px 30px;
-            box-shadow: 0 25px 70px rgba(0,0,0,0.02); border: 1px solid #f1f5f9;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.02); border: 1px solid #f1f5f9; 
             max-width: 580px; margin: 0 auto;
         }
 
-        /* حاوية السلايدر (للعرض فقط) */
+        /* حاوية السلايدر */
         .slider-street {
             position: relative; max-width: 580px; margin: 40px auto;
             background: #ffffff; border-radius: 50px; padding: 40px 0;
@@ -35,13 +35,13 @@
             0% { transform: translateX(0); }
             100% { transform: translateX(calc(200px * 3)); }
         }
-
+  
         .platform-node {
             display: flex; flex-direction: column; align-items: center; gap: 15px;
             padding: 20px; border-radius: 40px;
         }
 
-        /* المنصات التفاعلية فقط */
+        /* المنصات التفاعلية */
         .interactive-node {
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -49,7 +49,6 @@
         .interactive-node:active { transform: scale(0.9); background: #f8fbff; }
         .interactive-node:hover img { transform: translateY(-8px); filter: drop-shadow(0 12px 20px rgba(37, 99, 235, 0.15)); }
 
-        /* منصات العرض فقط */
         .display-only-node {
             cursor: default;
             width: 200px;
@@ -71,13 +70,6 @@
 
         .trace-line { position: absolute; bottom: 0; left: 0; right: 0; height: 1.2px; background: linear-gradient(to left, #3b82f6, #f1f5f9, transparent); }
 
-        .slider-street::before, .slider-street::after {
-            content: ""; position: absolute; top: 0; width: 80px; height: 100%; z-index: 2;
-        }
-        .slider-street::before { left: 0; background: linear-gradient(to right, white, transparent); }
-        .slider-street::after { right: 0; background: linear-gradient(to left, white, transparent); }
-
-        /* --- إضافات النافذة المنبثقة (Bottom Sheet) --- */
         #payment-sheet {
             position: fixed; bottom: -100%; left: 0; right: 0;
             background: #111827; border-radius: 30px 30px 0 0;
@@ -114,7 +106,6 @@
     </header>
 
     <main id="content-to-blur" class="pt-28 pb-20 px-6">
-        
         <div class="max-w-[580px] mx-auto mb-6 text-right px-4">
             <h2 class="text-xl font-black text-slate-800 tracking-tight">إختر المنصة المراد شحنها</h2>
             <div class="h-1 w-8 bg-blue-600 mt-1 rounded-full"></div>
@@ -146,7 +137,6 @@
                 <div class="platform-node display-only-node"><img src="https://i.ibb.co/SDXBRR7n/image.png"><span class="platform-name">XM Global</span></div>
             </div>
         </div>
-
     </main>
 
     <div id="overlay" onclick="closePaymentSheet()"></div>
@@ -154,10 +144,9 @@
         <div class="w-12 h-1.5 bg-gray-700 rounded-full mx-auto mb-6"></div>
         <h3 class="text-right text-white text-xl font-black mb-6">اختر طريقة الدفع</h3>
         
-        <div class="sheet-option" onclick="goToPage('wallet')">
+        <div class="sheet-option" onclick="goToPage('w/index.html')">
             <div class="flex items-center gap-3">
                 <svg width="18" height="18" fill="none" stroke="#6b7280" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                <span class="font-bold"></span>
             </div>
             <div class="flex items-center gap-4">
                 <span class="font-black text-lg">المحفظة الرقمية</span>
@@ -167,7 +156,7 @@
             </div>
         </div>
 
-        <div class="sheet-option" onclick="goToPage('all')">
+        <div class="sheet-option" onclick="goToPage('home.html')">
             <div class="flex items-center gap-3">
                 <svg width="18" height="18" fill="none" stroke="#6b7280" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
             </div>
@@ -198,9 +187,9 @@
             }, 400);
         }
 
-        function goToPage(method) {
-            // كيديك لصفحة w/index.html مع المعلومات
-            window.location.href = "w/index.html?platform=" + selectedPlatform + "&method=" + method;
+        function goToPage(url) {
+            // يتم توجيه المستخدم للرابط المطلوب مع تمرير اسم المنصة المختارة
+            window.location.href = url + "?platform=" + selectedPlatform;
         }
     </script>
 </body>
