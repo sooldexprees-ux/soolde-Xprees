@@ -7,81 +7,20 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Cairo', sans-serif; 
-            background-color: #f8fafc; 
-            color: #1e293b;
-            padding-bottom: 60px;
-        }
-        
-        .premium-card {
-            background: white; 
-            border: 1px solid #f1f5f9;
-            border-radius: 24px; 
-            padding: 16px 20px; 
-            margin-bottom: 12px;
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-            cursor: pointer;
-        }
-        
-        .premium-card:hover {
-            border-color: #3b82f6;
-            box-shadow: 0 12px 20px rgba(59, 130, 246, 0.06);
-            transform: translateY(-3px);
-        }
-
-        .deposit-btn {
-            background: #f1f5f9; 
-            color: #64748b;
-            font-size: 13px; 
-            font-weight: 800;
-            padding: 8px 18px; 
-            border-radius: 14px;
-            transition: 0.3s;
-        }
-
-        .premium-card:hover .deposit-btn {
-            background: #3b82f6; 
-            color: white;
-        }
-
-        .coin-logo { 
-            width: 46px; 
-            height: 46px; 
-            object-fit: contain; 
-        }
-
-        .network-tag {
-            font-size: 10px; 
-            font-weight: 800; 
-            color: #94a3b8;
-            background: #f8fafc; 
-            padding: 2px 10px; 
-            border-radius: 20px;
-            margin-top: 4px; 
-            display: inline-block;
-        }
-        
-        .coin-name { 
-            font-size: 17px; 
-            font-weight: 900; 
-            color: #0f172a; 
-        }
-
-        .header-bg {
-            background: linear-gradient(180deg, #ffffff 0%, rgba(248, 250, 252, 0) 100%);
-            padding: 40px 20px 20px;
-        }
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; color: #1e293b; padding-bottom: 60px; }
+        .premium-card { background: white; border: 1px solid #f1f5f9; border-radius: 24px; padding: 16px 20px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; transition: 0.3s; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02); cursor: pointer; }
+        .premium-card:hover { border-color: #3b82f6; box-shadow: 0 12px 20px rgba(59, 130, 246, 0.06); transform: translateY(-3px); }
+        .deposit-btn { background: #f1f5f9; color: #64748b; font-size: 13px; font-weight: 800; padding: 8px 18px; border-radius: 14px; transition: 0.3s; }
+        .premium-card:hover .deposit-btn { background: #3b82f6; color: white; }
+        .coin-logo { width: 46px; height: 46px; object-fit: contain; }
+        .network-tag { font-size: 10px; font-weight: 800; color: #94a3b8; background: #f8fafc; padding: 2px 10px; border-radius: 20px; margin-top: 4px; display: inline-block; }
+        .coin-name { font-size: 17px; font-weight: 900; color: #0f172a; }
+        .header-bg { background: linear-gradient(180deg, #ffffff 0%, rgba(248, 250, 252, 0) 100%); padding: 40px 20px 20px; }
     </style>
 </head>
 <body>
 
     <div class="max-w-[500px] mx-auto">
-        
         <header class="header-bg text-right mb-6">
             <div class="flex items-center justify-between mb-4">
                 <div>
@@ -103,14 +42,15 @@
                 </div>
             </div>
 
-            <div class="premium-card" onclick="goTo('complete.html')"> <button class="deposit-btn">إيداع</button>
+            <div class="premium-card" onclick="goTo('eth.html')">
+                <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Ether (ETH)</h3><span class="network-tag">ERC20</span></div>
                     <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" class="coin-logo">
                 </div>
             </div>
 
-            <div class="premium-card" onclick="goTo('complete.html')">
+            <div class="premium-card" onclick="goTo('usdt-bep20.html')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Tether (USDT)</h3><span class="network-tag">BEP20</span></div>
@@ -118,7 +58,7 @@
                 </div>
             </div>
 
-            <div class="premium-card" onclick="goTo('complete.html')">
+            <div class="premium-card" onclick="goTo('usdt-erc20.html')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Tether (USDT)</h3><span class="network-tag">ERC20</span></div>
@@ -126,7 +66,7 @@
                 </div>
             </div>
 
-            <div class="premium-card" onclick="goTo('complete.html')">
+            <div class="premium-card" onclick="goTo('usdt-trc20.html')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Tether (USDT)</h3><span class="network-tag">TRC20</span></div>
@@ -134,11 +74,27 @@
                 </div>
             </div>
 
-            <div class="premium-card" onclick="goTo('complete.html')">
+            <div class="premium-card" onclick="goTo('trx.html')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Tronix (TRX)</h3><span class="network-tag">TRC20</span></div>
                     <img src="https://cryptologos.cc/logos/tron-trx-logo.png" class="coin-logo">
+                </div>
+            </div>
+
+            <div class="premium-card" onclick="goTo('usdc-bep20.html')">
+                <button class="deposit-btn">إيداع</button>
+                <div class="flex items-center gap-4 text-right">
+                    <div><h3 class="coin-name">USD Coin (USDC)</h3><span class="network-tag">BEP20</span></div>
+                    <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" class="coin-logo">
+                </div>
+            </div>
+
+            <div class="premium-card" onclick="goTo('usdc-erc20.html')">
+                <button class="deposit-btn">إيداع</button>
+                <div class="flex items-center gap-4 text-right">
+                    <div><h3 class="coin-name">USD Coin (USDC)</h3><span class="network-tag">ERC20</span></div>
+                    <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" class="coin-logo">
                 </div>
             </div>
         </div>
@@ -150,20 +106,15 @@
                 <p class="text-[9px] font-bold text-slate-400 tracking-[1px]">SECURE DIGITAL ASSETS GATEWAY</p>
             </div>
         </footer>
-
     </div>
 
     <script>
-        // الوظيفة السحرية اللي غتحل ليك مشكل "General"
+        // الوظيفة اللي كتخلي 'platform' تدوز من صفحة لصفحة بلا ما تضيع
         function goTo(page) {
-            // 1. كنجبدو اسم المنصة (platform) من الرابط الحالي اللي جا من الصفحة الرئيسية
             const params = new URLSearchParams(window.location.search);
             const currentPlatform = params.get('platform') || "General";
-
-            // 2. كنزيدو هاد الاسم للرابط ديال الصفحة اللي جايين ليها
             window.location.href = page + "?platform=" + encodeURIComponent(currentPlatform);
         }
     </script>
-
 </body>
 </html>
