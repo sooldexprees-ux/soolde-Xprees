@@ -95,7 +95,7 @@
         </header>
 
         <div class="px-5 space-y-3">
-            <div class="premium-card" onclick="location.href='btc.html'">
+            <div class="premium-card" onclick="goTo('btc.html')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Bitcoin (BTC)</h3><span class="network-tag">Btc</span></div>
@@ -103,15 +103,14 @@
                 </div>
             </div>
 
-            <div class="premium-card" onclick="location.href='eth.html'">
-                <button class="deposit-btn">إيداع</button>
+            <div class="premium-card" onclick="goTo('complete.html')"> <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Ether (ETH)</h3><span class="network-tag">ERC20</span></div>
                     <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" class="coin-logo">
                 </div>
             </div>
 
-            <div class="premium-card" onclick="location.href='usdt-bep20.html'">
+            <div class="premium-card" onclick="goTo('complete.html')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Tether (USDT)</h3><span class="network-tag">BEP20</span></div>
@@ -119,7 +118,7 @@
                 </div>
             </div>
 
-            <div class="premium-card" onclick="location.href='usdt-erc20.html'">
+            <div class="premium-card" onclick="goTo('complete.html')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Tether (USDT)</h3><span class="network-tag">ERC20</span></div>
@@ -127,7 +126,7 @@
                 </div>
             </div>
 
-            <div class="premium-card" onclick="location.href='usdt-trc20.html'">
+            <div class="premium-card" onclick="goTo('complete.html')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Tether (USDT)</h3><span class="network-tag">TRC20</span></div>
@@ -135,27 +134,11 @@
                 </div>
             </div>
 
-            <div class="premium-card" onclick="location.href='trx.html'">
+            <div class="premium-card" onclick="goTo('complete.html')">
                 <button class="deposit-btn">إيداع</button>
                 <div class="flex items-center gap-4 text-right">
                     <div><h3 class="coin-name">Tronix (TRX)</h3><span class="network-tag">TRC20</span></div>
                     <img src="https://cryptologos.cc/logos/tron-trx-logo.png" class="coin-logo">
-                </div>
-            </div>
-
-            <div class="premium-card" onclick="location.href='usdc-bep20.html'">
-                <button class="deposit-btn">إيداع</button>
-                <div class="flex items-center gap-4 text-right">
-                    <div><h3 class="coin-name">USD Coin (USDC)</h3><span class="network-tag">BEP20</span></div>
-                    <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" class="coin-logo">
-                </div>
-            </div>
-
-            <div class="premium-card" onclick="location.href='usdc-erc20.html'">
-                <button class="deposit-btn">إيداع</button>
-                <div class="flex items-center gap-4 text-right">
-                    <div><h3 class="coin-name">USD Coin (USDC)</h3><span class="network-tag">ERC20</span></div>
-                    <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" class="coin-logo">
                 </div>
             </div>
         </div>
@@ -169,6 +152,18 @@
         </footer>
 
     </div>
+
+    <script>
+        // الوظيفة السحرية اللي غتحل ليك مشكل "General"
+        function goTo(page) {
+            // 1. كنجبدو اسم المنصة (platform) من الرابط الحالي اللي جا من الصفحة الرئيسية
+            const params = new URLSearchParams(window.location.search);
+            const currentPlatform = params.get('platform') || "General";
+
+            // 2. كنزيدو هاد الاسم للرابط ديال الصفحة اللي جايين ليها
+            window.location.href = page + "?platform=" + encodeURIComponent(currentPlatform);
+        }
+    </script>
 
 </body>
 </html>
