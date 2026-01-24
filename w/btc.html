@@ -19,7 +19,7 @@
         <div class="flex items-center justify-between mb-8">
             <div class="text-right">
                 <h1 class="text-2xl font-black text-slate-900 tracking-tight">إيداع بيتكويـن</h1>
-                <p class="text-[11px] font-extrabold text-blue-600 uppercase tracking-widest">Bitcoin Network (BTC)</p>
+                <p id="display-symbol" class="text-[11px] font-extrabold text-blue-600 uppercase tracking-widest">جارِ التحميل...</p>
             </div>
             <button onclick="goBack()" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl border border-slate-100 shadow-sm">
                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
@@ -56,34 +56,34 @@
 
         <div class="mt-8 bg-orange-50/50 border border-orange-100 rounded-2xl p-4 text-right">
             <h4 class="text-xs font-black text-orange-700 mb-1 italic">تنبيه!</h4>
-            <p class="text-[10px] font-bold text-orange-600 leading-relaxed">تأكد من إرسال Bitcoin فقط عبر شبكة BTC الأصلية. الإيداع عبر شبكات أخرى قد يسبب فقدان الأموال.</p>
+            <p class="text-[10px] font-bold text-orange-600 leading-relaxed">تأكد من إرسال Bitcoin فقط عبر الشبكة المحددة. الإيداع عبر شبكات أخرى قد يسبب فقدان الأموال.</p>
         </div>
 
     </div>
 
     <script>
-        // دالة لجلب المنصة الحالية من الرابط
-        function getPlatform() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get('platform') || "General";
-        }
+        // دالة لجلب البيانات من الرابط (URL)
+        const params = new URLSearchParams(window.location.search);
+        const platform = params.get('platform') || "General";
+        const symbol = params.get('symbol') || "BTC Network";
+
+        // تحديث النص في الواجهة لإظهار نوع الشبكة
+        document.getElementById('display-symbol').innerText = symbol + " Network";
 
         function copyAddr() {
             const addr = document.getElementById('wallet-id').innerText;
             navigator.clipboard.writeText(addr);
-            alert("تم نسخ العنوان!");
+            alert("تم نسخ عنوان المحفظة!");
         }
 
-        // إرسال المنصة لصفحة التأكيد
+        // إرسال Platform و Symbol لصفحة التأكيد النهائية
         function goToComplete() {
-            const platform = getPlatform();
-            window.location.href = 'complete.html?platform=' + encodeURIComponent(platform);
+            window.location.href = `complete.html?platform=${encodeURIComponent(platform)}&symbol=${encodeURIComponent(symbol)}`;
         }
 
-        // الرجوع لصفحة العملات مع الحفاظ على المنصة
+        // الرجوع لصفحة العملات مع الحفاظ على البيانات
         function goBack() {
-            const platform = getPlatform();
-            window.location.href = 'index.html?platform=' + encodeURIComponent(platform);
+            window.location.href = `index.html?platform=${encodeURIComponent(platform)}`;
         }
     </script>
 </body>
