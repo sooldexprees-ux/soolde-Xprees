@@ -3,88 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>تأكيد العملية - Soold Express</title>
+    <title>تأكيد الإيداع - Soold Express</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        .secure-card { background: white; border-radius: 35px; box-shadow: 0 25px 60px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; width: 90%; max-width: 450px; padding: 40px; text-align: center; }
-        .loader-bar { width: 100%; height: 4px; background: #f1f5f9; border-radius: 10px; margin: 20px 0; overflow: hidden; position: relative; }
-        .loader-progress { width: 0%; height: 100%; background: #2563eb; position: absolute; transition: width 0.5s ease; }
+        body { font-family: 'Cairo', sans-serif; background: #f8fafc; padding: 20px; }
+        .premium-card { background: white; border-radius: 25px; padding: 25px; max-width: 450px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .input-field { width: 100%; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 12px; text-align: left; font-weight: bold; margin-bottom: 15px; outline: none; }
+        .upload-box { border: 2px dashed #3b82f6; border-radius: 15px; padding: 20px; text-align: center; cursor: pointer; background: #f0f7ff; position: relative; min-height: 140px; display: flex; align-items: center; justify-content: center; }
+        #previewImage { position: absolute; top:0; left:0; width:100%; height:100%; object-fit: contain; display:none; background:white; border-radius: 15px; }
+        .btn-confirm { width: 100%; background: #2563eb; color: white; padding: 16px; border-radius: 15px; font-weight: 900; font-size: 18px; transition: 0.3s; cursor: pointer; border: none; }
+        .btn-confirm:disabled { background: #94a3b8; cursor: not-allowed; }
     </style>
 </head>
 <body>
 
-    <div class="secure-card">
-        <div id="icon-status" class="text-6xl mb-6 transition-all duration-500">⏳</div>
-        <h1 id="title-status" class="text-2xl font-black text-slate-900 mb-2">جاري معالجة الطلب...</h1>
-        <p id="desc-status" class="text-slate-500 text-sm leading-relaxed mb-6">نحن نقوم بتأمين بيانات التحويل الخاصة بك وربطها بحسابك في <span id="target-platform" class="font-bold text-blue-600">...</span></p>
-        
-        <div class="loader-bar">
-            <div id="progress" class="loader-progress"></div>
-        </div>
+    <div class="premium-card text-right">
+        <h2 class="text-xl font-black mb-6 text-center text-slate-800">تأكيد عملية الشحن</h2>
 
-        <button onclick="window.location.href='index.html'" class="mt-6 text-slate-400 text-xs font-bold hover:text-blue-600 transition-colors uppercase tracking-widest">إغلاق الصفحة</button>
+        <label class="block text-sm font-bold text-slate-600 mb-1 mr-1">الاسم أو ID</label>
+        <input type="text" id="user" class="input-field" placeholder="User ID">
+
+        <label class="block text-sm font-bold text-slate-600 mb-1 mr-1">المبلغ (DH)</label>
+        <input type="number" id="monton" class="input-field" placeholder="0.00">
+
+        <label class="block text-sm font-bold text-slate-600 mb-1 mr-1">صورة الوصل (الروسي)</label>
+        <div class="upload-box" onclick="document.getElementById('imageFile').click()">
+            <div id="uploadContent">
+                <p class="text-blue-500 font-bold text-sm">إضغط لرفع صورة الوصل</p>
+            </div>
+            <img id="previewImage">
+        </div>
+        <input type="file" id="imageFile" accept="image/*" class="hidden">
+
+        <button id="submitBtn" class="btn-confirm mt-6">إرسال الطلب الآن</button>
     </div>
 
     <script>
-        /**
-         * Soold Express Secure Decoder & Sender
-         */
-        (function() {
-            const _urlParams = new URLSearchParams(window.location.search);
-            const _progress = document.getElementById('progress');
-            
-            // 1. دالة فك التشفير الاحترافية
-            const _decode = (token) => {
-                try {
-                    return decodeURIComponent(atob(token));
-                } catch (e) {
-                    return "General";
-                }
-            };
+        const urlParams = new URLSearchParams(window.location.search);
+        const platform = urlParams.get('platform') || "N/A";
+        const symbol = urlParams.get('symbol') || "N/A";
 
-            // 2. استخراج البيانات وفك شفرتها
-            const platform = _decode(_urlParams.get('token_p'));
-            const symbol = _decode(_urlParams.get('token_s'));
-            
-            document.getElementById('target-platform').innerText = platform;
-
-            // تحديث شريط التحميل وهمياً لزيادة الاحترافية
-            setTimeout(() => _progress.style.width = "40%", 500);
-            setTimeout(() => _progress.style.width = "80%", 1500);
-
-            // 3. رابط Google Apps Script مشفر بـ Base64 لزيادة الحماية
-            // قم بتحويل رابطك إلى Base64 وضعه هنا
-            const _0x_key = "aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6LUZ6VlZ6VlZ6VlZ6VlZ6VlZ6VlZ6VlZ6VlZ6VlZ6VlZ6VlZ6L2V4ZWM="; // مثال
-            const _api = atob(_0x_key);
-
-            // 4. إرسال البيانات إلى الـ Sheet
-            fetch(_api, {
-                method: 'POST',
-                mode: 'no-cors',
-                cache: 'no-cache',
-                body: JSON.stringify({
-                    "platform": platform,
-                    "symbol": symbol,
-                    "date": new Date().toLocaleString()
-                })
-            }).then(() => {
-                _finalize();
-            }).catch(() => {
-                _finalize(); // حتى لو فشل الاتصال، نظهر نجاحاً للمستخدم لضمان تجربة سلسة
-            });
-
-            function _finalize() {
-                _progress.style.width = "100%";
-                setTimeout(() => {
-                    document.getElementById('icon-status').innerText = "✅";
-                    document.getElementById('title-status').innerText = "تم التأكيد بنجاح";
-                    document.getElementById('title-status').classList.replace('text-slate-900', 'text-green-600');
-                    document.getElementById('desc-status').innerText = "لقد توصلنا ببيانات التحويل، سيتم مراجعة العملية وتحديث رصيدك قريباً.";
-                }, 500);
+        // معاينة الصورة
+        document.getElementById('imageFile').onchange = function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('previewImage').src = e.target.result;
+                    document.getElementById('previewImage').style.display = 'block';
+                    document.getElementById('uploadContent').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
             }
-        })();
+        };
+
+        // حدث الضغط على الزر (بدون دالة مستقلة)
+        document.getElementById('submitBtn').onclick = async function() {
+            const user = document.getElementById('user').value;
+            const monton = document.getElementById('monton').value;
+            const fileInput = document.getElementById('imageFile');
+            const btn = this;
+
+            if (!user || !monton || fileInput.files.length === 0) {
+                alert("المرجو ملء جميع الخانات وتحميل الصورة");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = "جاري الإرسال...";
+
+            try {
+                // 1. رفع الصورة إلى ImgBB باستخدام الـ API الخاص بك
+                const file = fileInput.files[0];
+                const imgFormData = new FormData();
+                imgFormData.append('image', file);
+
+                const imgbbRes = await fetch(`https://api.imgbb.com/1/upload?key=B3817d05e64c4b61d823fb615461bd9e`, {
+                    method: 'POST',
+                    body: imgFormData
+                });
+                const imgData = await imgbbRes.json();
+                const imageUrl = imgData.data.url;
+
+                // 2. إرسال البيانات إلى الرابط الجديد الخاص بك
+                const scriptURL = 'https://script.google.com/macros/s/AKfycbzsznxacujJejhi1K9WPUlGAdJ3vCp2OVDIZ8krTB4mnif1LLKH_4ZvZaHRh3cnjaum/exec';
+
+                await fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({
+                        platforme: platform,
+                        user: user,
+                        monton: monton + " DH",
+                        image: imageUrl,
+                        symbol: symbol
+                    })
+                });
+
+                alert("تم إرسال طلبك بنجاح!");
+                window.location.href = "index.html";
+
+            } catch (err) {
+                console.error(err);
+                alert("حدث خطأ، يرجى المحاولة مرة أخرى.");
+                btn.disabled = false;
+                btn.innerHTML = "إرسال الطلب الآن";
+            }
+        };
     </script>
 </body>
 </html>
+
+هذا الكود فيه جوج كودات ديبلاي و imgbb بغيتك تشفرهم
