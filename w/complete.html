@@ -7,158 +7,110 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Cairo', sans-serif; 
-            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%); 
-            min-height: 100vh; padding: 20px; 
-        }
-        
-        .premium-card {
-            background: white; border-radius: 30px; padding: 30px 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
-            max-width: 450px; margin: 10px auto; border: 1px solid rgba(255,255,255,0.7);
-        }
-
-        .input-field {
-            width: 100%; background: #f8fafc; border: 2px solid #e2e8f0;
-            border-radius: 15px; padding: 14px; text-align: left;
-            font-weight: 700; outline: none; transition: 0.3s;
-        }
-
-        .input-field:focus { 
-            border-color: #3b82f6; background: white; 
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-        }
-
-        .upload-box {
-            border: 2px dashed #3b82f6; border-radius: 20px;
-            padding: 20px; text-align: center; cursor: pointer;
-            position: relative; overflow: hidden; min-height: 160px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: linear-gradient(to bottom, #ffffff, #f0f7ff);
-        }
-
-        #previewImage {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: contain; display: none; background: white; z-index: 10;
-        }
-
-        .btn-confirm {
-            width: 100%; background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%); 
-            color: white; padding: 18px; border-radius: 18px; 
-            font-weight: 900; font-size: 18px; margin-top: 10px;
-            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4);
-            transition: 0.3s; border: none;
-        }
-
-        .btn-confirm:active { transform: scale(0.97); }
+        body { font-family: 'Cairo', sans-serif; background: #f8fafc; padding: 20px; }
+        .premium-card { background: white; border-radius: 25px; padding: 25px; max-width: 450px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .input-field { width: 100%; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 12px; text-align: left; font-weight: bold; margin-bottom: 15px; outline: none; }
+        .upload-box { border: 2px dashed #3b82f6; border-radius: 15px; padding: 20px; text-align: center; cursor: pointer; background: #f0f7ff; position: relative; min-height: 140px; display: flex; align-items: center; justify-content: center; }
+        #previewImage { position: absolute; top:0; left:0; width:100%; height:100%; object-fit: contain; display:none; background:white; border-radius: 15px; }
+        .btn-confirm { width: 100%; background: #2563eb; color: white; padding: 16px; border-radius: 15px; font-weight: 900; font-size: 18px; transition: 0.3s; cursor: pointer; border: none; }
+        .btn-confirm:disabled { background: #94a3b8; cursor: not-allowed; }
     </style>
 </head>
 <body>
 
     <div class="premium-card text-right">
-        <h2 class="text-2xl font-black mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-            تأكيد عملية الإيداع
-        </h2>
+        <h2 class="text-xl font-black mb-6 text-center text-slate-800">تأكيد عملية الشحن</h2>
 
-        <div class="mb-5">
-            <label class="block text-xs font-black text-slate-400 mb-2 mr-1 uppercase">الاسم الكامل / ID</label>
-            <input type="text" id="user" class="input-field" placeholder="Full Name or ID">
-        </div>
+        <label class="block text-sm font-bold text-slate-600 mb-1 mr-1">الاسم أو ID</label>
+        <input type="text" id="user" class="input-field" placeholder="User ID">
 
-        <div class="mb-5">
-            <label class="block text-xs font-black text-slate-400 mb-2 mr-1 uppercase">المبلغ المراد شحنه (بالدرهم)</label>
-            <input type="number" id="monton" class="input-field" placeholder="0.00 DH">
-        </div>
+        <label class="block text-sm font-bold text-slate-600 mb-1 mr-1">المبلغ (DH)</label>
+        <input type="number" id="monton" class="input-field" placeholder="0.00">
 
-        <div class="mb-8">
-            <label class="block text-xs font-black text-slate-400 mb-2 mr-1 uppercase">صورة وصل الدفع (الروسي)</label>
-            <div class="upload-box" onclick="document.getElementById('imageFile').click()">
-                <div id="uploadContent">
-                    <svg class="mx-auto mb-2" width="35" height="35" fill="none" stroke="#3b82f6" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                    </svg>
-                    <p class="text-sm font-bold text-blue-500">إضغط هنا لرفع صورة الوصل</p>
-                </div>
-                <img id="previewImage" src="#" alt="Preview">
+        <label class="block text-sm font-bold text-slate-600 mb-1 mr-1">صورة الوصل (الروسي)</label>
+        <div class="upload-box" onclick="document.getElementById('imageFile').click()">
+            <div id="uploadContent">
+                <p class="text-blue-500 font-bold text-sm">إضغط لرفع صورة الوصل</p>
             </div>
-            <input type="file" id="imageFile" accept="image/*" class="hidden" onchange="previewFile()">
+            <img id="previewImage">
         </div>
+        <input type="file" id="imageFile" accept="image/*" class="hidden">
 
-        <button id="submitBtn" onclick="handleUpload()" class="btn-confirm">إرسال الطلب</button>
+        <button id="submitBtn" class="btn-confirm mt-6">إرسال الطلب الآن</button>
     </div>
 
     <script>
-        // التقاط البيانات القادمة من الصفحات السابقة عبر الرابط
-        const params = new URLSearchParams(window.location.search);
-        const platformValue = params.get('platform') || "General";
-        const symbolValue = params.get('symbol') || "Unknown";
+        const urlParams = new URLSearchParams(window.location.search);
+        const platform = urlParams.get('platform') || "N/A";
+        const symbol = urlParams.get('symbol') || "N/A";
 
-        // وظيفة معاينة الصورة عند رفعها
-        function previewFile() {
-            const file = document.getElementById('imageFile').files[0];
-            const preview = document.getElementById('previewImage');
-            const content = document.getElementById('uploadContent');
-
+        // معاينة الصورة
+        document.getElementById('imageFile').onchange = function() {
+            const file = this.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                    content.style.display = 'none';
-                }
+                reader.onload = (e) => {
+                    document.getElementById('previewImage').src = e.target.result;
+                    document.getElementById('previewImage').style.display = 'block';
+                    document.getElementById('uploadContent').style.display = 'none';
+                };
                 reader.readAsDataURL(file);
             }
-        }
+        };
 
-        // الوظيفة الأساسية لإرسال البيانات
-        async function handleUpload() {
+        // حدث الضغط على الزر (بدون دالة مستقلة)
+        document.getElementById('submitBtn').onclick = async function() {
             const user = document.getElementById('user').value;
             const monton = document.getElementById('monton').value;
             const fileInput = document.getElementById('imageFile');
-            const btn = document.getElementById('submitBtn');
+            const btn = this;
 
             if (!user || !monton || fileInput.files.length === 0) {
-                alert("المرجو إكمال جميع البيانات وتحميل صورة الوصل");
+                alert("المرجو ملء جميع الخانات وتحميل الصورة");
                 return;
             }
 
             btn.disabled = true;
-            btn.innerHTML = "جاري المعالجة...";
+            btn.innerHTML = "جاري الإرسال...";
 
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-            
-            reader.onload = async function(e) {
-                const base64 = e.target.result.split(',')[1];
-                
-                // الرابط الخاص بك الذي قمت بتزويدي به
-                const scriptURL = 'https://script.google.com/macros/s/AKfycbyC2mrkugWqYXX-3t771rqUn88csXXZk1XenLJhX-if7wMDhvJh_zBh8f7nqa4bUtQK/exec';
+            try {
+                // 1. رفع الصورة إلى ImgBB باستخدام الـ API الخاص بك
+                const file = fileInput.files[0];
+                const imgFormData = new FormData();
+                imgFormData.append('image', file);
 
-                try {
-                    await fetch(scriptURL, {
-                        method: 'POST',
-                        mode: 'no-cors', // لتجاوز قيود CORS
-                        body: JSON.stringify({
-                            platforme: platformValue,
-                            user: user,
-                            monton: monton + " DH",
-                            image: base64,
-                            filename: file.name,
-                            symbol: symbolValue
-                        })
-                    });
-                    
-                    alert("تم إرسال طلبك بنجاح! سيتم التحقق من الوصل قريباً.");
-                    window.location.href = 'index.html';
-                } catch (err) {
-                    // في أغلب الأحيان تصل البيانات حتى مع وجود خطأ تقني في الاستجابة
-                    alert("تم الإرسال بنجاح!");
-                    window.location.href = 'index.html';
-                }
-            };
-            reader.readAsDataURL(file);
-        }
+                const imgbbRes = await fetch(`https://api.imgbb.com/1/upload?key=B3817d05e64c4b61d823fb615461bd9e`, {
+                    method: 'POST',
+                    body: imgFormData
+                });
+                const imgData = await imgbbRes.json();
+                const imageUrl = imgData.data.url;
+
+                // 2. إرسال البيانات إلى الرابط الجديد الخاص بك
+                const scriptURL = 'https://script.google.com/macros/s/AKfycbzsznxacujJejhi1K9WPUlGAdJ3vCp2OVDIZ8krTB4mnif1LLKH_4ZvZaHRh3cnjaum/exec';
+
+                await fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({
+                        platforme: platform,
+                        user: user,
+                        monton: monton + " DH",
+                        image: imageUrl,
+                        symbol: symbol
+                    })
+                });
+
+                alert("تم إرسال طلبك بنجاح!");
+                window.location.href = "index.html";
+
+            } catch (err) {
+                console.error(err);
+                alert("حدث خطأ، يرجى المحاولة مرة أخرى.");
+                btn.disabled = false;
+                btn.innerHTML = "إرسال الطلب الآن";
+            }
+        };
     </script>
 </body>
 </html>
