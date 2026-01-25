@@ -13,49 +13,34 @@
         .upload-box { border: 2px dashed #3b82f6; border-radius: 15px; padding: 20px; text-align: center; cursor: pointer; background: #f0f7ff; position: relative; min-height: 140px; display: flex; align-items: center; justify-content: center; }
         #previewImage { position: absolute; top:0; left:0; width:100%; height:100%; object-fit: contain; display:none; background:white; border-radius: 15px; }
         .btn-confirm { width: 100%; background: #2563eb; color: white; padding: 16px; border-radius: 15px; font-weight: 900; font-size: 18px; transition: 0.3s; cursor: pointer; border: none; }
-        .btn-confirm:disabled { background: #94a3b8; cursor: not-allowed; }
     </style>
 </head>
 <body>
 
     <div class="premium-card text-right">
         <h2 class="text-xl font-black mb-6 text-center text-slate-800">تأكيد عملية الشحن</h2>
-
-        <label class="block text-sm font-bold text-slate-600 mb-1 mr-1">الاسم أو ID</label>
         <input type="text" id="user" class="input-field" placeholder="User ID">
-
-        <label class="block text-sm font-bold text-slate-600 mb-1 mr-1">المبلغ (DH)</label>
-        <input type="number" id="monton" class="input-field" placeholder="0.00">
-
-        <label class="block text-sm font-bold text-slate-600 mb-1 mr-1">صورة الوصل (الروسي)</label>
+        <input type="number" id="monton" class="input-field" placeholder="المبلغ (DH)">
         <div class="upload-box" onclick="document.getElementById('imageFile').click()">
-            <div id="uploadContent">
-                <p class="text-blue-500 font-bold text-sm">إضغط لرفع صورة الوصل</p>
-            </div>
+            <div id="uploadContent"><p class="text-blue-500 font-bold text-sm">إضغط لرفع صورة الوصل</p></div>
             <img id="previewImage">
         </div>
         <input type="file" id="imageFile" accept="image/*" class="hidden">
-
         <button id="submitBtn" class="btn-confirm mt-6">إرسال الطلب الآن</button>
     </div>
 
     <script>
-        // دالة فك التشفير (المترجم)
+        // 1. نظام فك التشفير (ضروري باش ما يبقاش يطلع N/A)
         const _decrypt = (t) => {
-            try { return decodeURIComponent(atob(t)); } 
-            catch(e) { return "N/A"; }
+            try { return decodeURIComponent(atob(t)); } catch(e) { return "General"; }
         };
 
-        // تشفير روابطك (Base64) لحمايتها من السرقة
-        const _iK = "QjM4MTdkMDUlNjRjNGI2MWQ4MjNmYjYxNTQ2MWJkOWU="; // ImgBB Key
-        const _sU = "YUhSMGNITTZMeTluYjI5bmJHVXVaeTloY0hCek1pNXpZM0pwY0hRdWRXOXNaVzV1YVd4NUxtTnZiUzl0WVdOeWIzTXZjeTloUzJabmMyOXpkbmhoWTNWa2VtaGxhR3BKYVdoNGVFMWRVRlZIZVdaNWEyOXpWRlpXYTBaek0zTnVhbTFoZFcxdU1XWTVURXhMU0VoZlRFeE1URXhTUzEwNVpYWm1XbUZJVkhobVozTmxkWE05WlhWbmJ3PT0="; // Script URL
-
         const urlParams = new URLSearchParams(window.location.search);
-        
-        // جلب البيانات بأسماء التشفير (tp و ts)
+        // قراءة الرموز tp و ts من الرابط
         const platform = urlParams.get('tp') ? _decrypt(urlParams.get('tp')) : "N/A";
         const symbol = urlParams.get('ts') ? _decrypt(urlParams.get('ts')) : "N/A";
 
+        // 2. معاينة الصورة
         document.getElementById('imageFile').onchange = function() {
             const file = this.files[0];
             if (file) {
@@ -69,39 +54,39 @@
             }
         };
 
+        // 3. الإرسال (تم تعديل الطريقة لتجنب حظر GitHub/Browser)
         document.getElementById('submitBtn').onclick = async function() {
             const user = document.getElementById('user').value;
             const monton = document.getElementById('monton').value;
             const fileInput = document.getElementById('imageFile');
-            const btn = this;
 
             if (!user || !monton || fileInput.files.length === 0) {
-                alert("المرجو ملء جميع الخانات وتحميل الصورة");
-                return;
+                alert("المرجو ملء جميع الخانات"); return;
             }
 
-            btn.disabled = true;
-            btn.innerHTML = "جاري التأمين والإرسال...";
+            this.disabled = true;
+            this.innerHTML = "جاري الإرسال...";
 
             try {
-                const file = fileInput.files[0];
+                // رفع الصورة
                 const imgFormData = new FormData();
-                imgFormData.append('image', file);
-
-                // فك تشفير مفتاح ImgBB
-                const imgbbRes = await fetch(`https://api.imgbb.com/1/upload?key=${_decrypt(_iK)}`, {
+                imgFormData.append('image', fileInput.files[0]);
+                const imgbbRes = await fetch(`https://api.imgbb.com/1/upload?key=B3817d05e64c4b61d823fb615461bd9e`, {
                     method: 'POST',
                     body: imgFormData
                 });
                 const imgData = await imgbbRes.json();
                 const imageUrl = imgData.data.url;
 
-                // فك تشفير رابط السكريبت (مزدوج للحماية)
-                const scriptURL = _decrypt(_decrypt(_sU));
-
+                // إرسال للـ Sheet
+                const scriptURL = 'https://script.google.com/macros/s/AKfycbzsznxacujJejhi1K9WPUlGAdJ3vCp2OVDIZ8krTB4mnif1LLKH_4ZvZaHRh3cnjaum/exec';
+                
+                // استعملنا fetch مع mode: 'no-cors' لتجنب بلوك المتصفح
                 await fetch(scriptURL, {
                     method: 'POST',
-                    mode: 'no-cors',
+                    mode: 'no-cors', 
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         platforme: platform,
                         user: user,
@@ -111,13 +96,13 @@
                     })
                 });
 
-                alert("تم إرسال طلبك بنجاح!");
+                alert("تم الإرسال بنجاح!");
                 window.location.href = "index.html";
 
             } catch (err) {
-                alert("حدث خطأ، يرجى المحاولة مرة أخرى.");
-                btn.disabled = false;
-                btn.innerHTML = "إرسال الطلب الآن";
+                alert("خطأ في الشبكة، جرب من متصفح آخر.");
+                this.disabled = false;
+                this.innerHTML = "إرسال الطلب الآن";
             }
         };
     </script>
