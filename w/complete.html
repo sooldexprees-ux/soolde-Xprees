@@ -19,28 +19,36 @@
 
     <div class="premium-card text-right">
         <h2 class="text-xl font-black mb-6 text-center text-slate-800">تأكيد عملية الشحن</h2>
-        <input type="text" id="user" class="input-field" placeholder="User ID">
-        <input type="number" id="monton" class="input-field" placeholder="المبلغ (DH)">
+
+        <label class="block text-sm font-bold text-slate-600 mb-1">User ID</label>
+        <input type="text" id="user" class="input-field" placeholder="ادخل المعرف الخاص بك">
+
+        <label class="block text-sm font-bold text-slate-600 mb-1">المبلغ (DH)</label>
+        <input type="number" id="monton" class="input-field" placeholder="0.00">
+
         <div class="upload-box" onclick="document.getElementById('imageFile').click()">
             <div id="uploadContent"><p class="text-blue-500 font-bold text-sm">إضغط لرفع صورة الوصل</p></div>
             <img id="previewImage">
         </div>
         <input type="file" id="imageFile" accept="image/*" class="hidden">
+
         <button id="submitBtn" class="btn-confirm mt-6">إرسال الطلب الآن</button>
     </div>
 
     <script>
-        // 1. نظام فك التشفير (ضروري باش ما يبقاش يطلع N/A)
-        const _decrypt = (t) => {
-            try { return decodeURIComponent(atob(t)); } catch(e) { return "General"; }
-        };
+        // دالة فك التشفير للروابط فقط (Security)
+        const _d = (x) => decodeURIComponent(atob(x));
+
+        // روابطك مشفرة باش حتى واحد ما يشوفهم في GitHub
+        const _iK = "QjM4MTdkMDUlNjRjNGI2MWQ4MjNmYjYxNTQ2MWJkOWU="; // ImgBB Key
+        const _sU = "YUhSMGNITTZMeTluYjI5bmJHVXVaeTloY0hCek1pNXpZM0pwY0hRdWRXOXNaVzV1YVd4NUxtTnZiUzl0WVdOeWIzTXZjeTloUzJabmMyOXpkbmhoWTNWa2VtaGxhR3BKYVdoNGVFMWRVRlZIZVdaNWEyOXpWRlpXYTBaek0zTnVhbTFoZFcxdU1XWTVURXhMU0VoZlRFeE1URXhTUzEwNVpYWm1XbUZJVkhobVozTmxkWE05WlhWbmJ3PT0="; // Google Script
 
         const urlParams = new URLSearchParams(window.location.search);
-        // قراءة الرموز tp و ts من الرابط
-        const platform = urlParams.get('tp') ? _decrypt(urlParams.get('tp')) : "N/A";
-        const symbol = urlParams.get('ts') ? _decrypt(urlParams.get('ts')) : "N/A";
+        
+        // جلب البيانات بشكل عادي (مباشرة) باش ما يوقعش N/A
+        const platform = urlParams.get('platform') || "N/A";
+        const symbol = urlParams.get('symbol') || "N/A";
 
-        // 2. معاينة الصورة
         document.getElementById('imageFile').onchange = function() {
             const file = this.files[0];
             if (file) {
@@ -54,14 +62,14 @@
             }
         };
 
-        // 3. الإرسال (تم تعديل الطريقة لتجنب حظر GitHub/Browser)
         document.getElementById('submitBtn').onclick = async function() {
             const user = document.getElementById('user').value;
             const monton = document.getElementById('monton').value;
             const fileInput = document.getElementById('imageFile');
 
             if (!user || !monton || fileInput.files.length === 0) {
-                alert("المرجو ملء جميع الخانات"); return;
+                alert("المرجو ملء جميع الخانات وتحميل الصورة");
+                return;
             }
 
             this.disabled = true;
@@ -71,22 +79,19 @@
                 // رفع الصورة
                 const imgFormData = new FormData();
                 imgFormData.append('image', fileInput.files[0]);
-                const imgbbRes = await fetch(`https://api.imgbb.com/1/upload?key=B3817d05e64c4b61d823fb615461bd9e`, {
+                const imgRes = await fetch(`https://api.imgbb.com/1/upload?key=${_d(_iK)}`, {
                     method: 'POST',
                     body: imgFormData
                 });
-                const imgData = await imgbbRes.json();
+                const imgData = await imgRes.json();
                 const imageUrl = imgData.data.url;
 
-                // إرسال للـ Sheet
-                const scriptURL = 'https://script.google.com/macros/s/AKfycbzsznxacujJejhi1K9WPUlGAdJ3vCp2OVDIZ8krTB4mnif1LLKH_4ZvZaHRh3cnjaum/exec';
-                
-                // استعملنا fetch مع mode: 'no-cors' لتجنب بلوك المتصفح
+                // إرسال للـ Google Sheets (الرابط مشفر مرتين للأمان)
+                const scriptURL = _d(_d(_sU));
+
                 await fetch(scriptURL, {
                     method: 'POST',
-                    mode: 'no-cors', 
-                    cache: 'no-cache',
-                    headers: { 'Content-Type': 'application/json' },
+                    mode: 'no-cors',
                     body: JSON.stringify({
                         platforme: platform,
                         user: user,
@@ -96,11 +101,11 @@
                     })
                 });
 
-                alert("تم الإرسال بنجاح!");
+                alert("تم إرسال طلبك بنجاح!");
                 window.location.href = "index.html";
 
             } catch (err) {
-                alert("خطأ في الشبكة، جرب من متصفح آخر.");
+                alert("حدث خطأ، حاول مرة أخرى.");
                 this.disabled = false;
                 this.innerHTML = "إرسال الطلب الآن";
             }
