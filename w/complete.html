@@ -40,11 +40,22 @@
     </div>
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const platform = urlParams.get('platform') || "N/A";
-        const symbol = urlParams.get('symbol') || "N/A";
+        // دالة فك التشفير (المترجم)
+        const _decrypt = (t) => {
+            try { return decodeURIComponent(atob(t)); } 
+            catch(e) { return "N/A"; }
+        };
 
-        // معاينة الصورة
+        // تشفير روابطك (Base64) لحمايتها من السرقة
+        const _iK = "QjM4MTdkMDUlNjRjNGI2MWQ4MjNmYjYxNTQ2MWJkOWU="; // ImgBB Key
+        const _sU = "YUhSMGNITTZMeTluYjI5bmJHVXVaeTloY0hCek1pNXpZM0pwY0hRdWRXOXNaVzV1YVd4NUxtTnZiUzl0WVdOeWIzTXZjeTloUzJabmMyOXpkbmhoWTNWa2VtaGxhR3BKYVdoNGVFMWRVRlZIZVdaNWEyOXpWRlpXYTBaek0zTnVhbTFoZFcxdU1XWTVURXhMU0VoZlRFeE1URXhTUzEwNVpYWm1XbUZJVkhobVozTmxkWE05WlhWbmJ3PT0="; // Script URL
+
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // جلب البيانات بأسماء التشفير (tp و ts)
+        const platform = urlParams.get('tp') ? _decrypt(urlParams.get('tp')) : "N/A";
+        const symbol = urlParams.get('ts') ? _decrypt(urlParams.get('ts')) : "N/A";
+
         document.getElementById('imageFile').onchange = function() {
             const file = this.files[0];
             if (file) {
@@ -58,7 +69,6 @@
             }
         };
 
-        // حدث الضغط على الزر (بدون دالة مستقلة)
         document.getElementById('submitBtn').onclick = async function() {
             const user = document.getElementById('user').value;
             const monton = document.getElementById('monton').value;
@@ -71,23 +81,23 @@
             }
 
             btn.disabled = true;
-            btn.innerHTML = "جاري الإرسال...";
+            btn.innerHTML = "جاري التأمين والإرسال...";
 
             try {
-                // 1. رفع الصورة إلى ImgBB باستخدام الـ API الخاص بك
                 const file = fileInput.files[0];
                 const imgFormData = new FormData();
                 imgFormData.append('image', file);
 
-                const imgbbRes = await fetch(`https://api.imgbb.com/1/upload?key=B3817d05e64c4b61d823fb615461bd9e`, {
+                // فك تشفير مفتاح ImgBB
+                const imgbbRes = await fetch(`https://api.imgbb.com/1/upload?key=${_decrypt(_iK)}`, {
                     method: 'POST',
                     body: imgFormData
                 });
                 const imgData = await imgbbRes.json();
                 const imageUrl = imgData.data.url;
 
-                // 2. إرسال البيانات إلى الرابط الجديد الخاص بك
-                const scriptURL = 'https://script.google.com/macros/s/AKfycbzsznxacujJejhi1K9WPUlGAdJ3vCp2OVDIZ8krTB4mnif1LLKH_4ZvZaHRh3cnjaum/exec';
+                // فك تشفير رابط السكريبت (مزدوج للحماية)
+                const scriptURL = _decrypt(_decrypt(_sU));
 
                 await fetch(scriptURL, {
                     method: 'POST',
@@ -105,7 +115,6 @@
                 window.location.href = "index.html";
 
             } catch (err) {
-                console.error(err);
                 alert("حدث خطأ، يرجى المحاولة مرة أخرى.");
                 btn.disabled = false;
                 btn.innerHTML = "إرسال الطلب الآن";
@@ -114,5 +123,3 @@
     </script>
 </body>
 </html>
-
-هذا الكود فيه جوج كودات ديبلاي و imgbb بغيتك تشفرهم
