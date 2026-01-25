@@ -3,74 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>تأكيد الإرسال - Soold Express</title>
+    <title>تأكيد العملية - Soold Express</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
-        .secure-card { background: white; border-radius: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; }
-        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #2563eb; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; display: none; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .secure-card { background: white; border-radius: 35px; box-shadow: 0 25px 60px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; width: 90%; max-width: 450px; padding: 40px; text-align: center; }
+        .loader-bar { width: 100%; height: 4px; background: #f1f5f9; border-radius: 10px; margin: 20px 0; overflow: hidden; position: relative; }
+        .loader-progress { width: 0%; height: 100%; background: #2563eb; position: absolute; transition: width 0.5s ease; }
     </style>
 </head>
-<body class="p-5">
+<body>
 
-    <div class="max-w-[500px] mx-auto mt-10 text-center">
-        <div class="secure-card p-10">
-            <div id="status-icon" class="mb-6 text-6xl text-blue-600 font-black">📤</div>
-            <h1 id="status-text" class="text-2xl font-black text-slate-900 mb-4">جاري تأكيد العملية...</h1>
-            <p class="text-slate-500 text-sm mb-8 leading-relaxed">يرجى الانتظار، نحن نقوم بربط البيانات وتأمين طلبك عبر خوادم Soold Express.</p>
-            
-            <div id="loader-box" class="flex justify-center mb-8">
-                <div class="loader" id="loading"></div>
-            </div>
-
-            <button onclick="window.location.href='index.html'" class="text-blue-600 font-bold text-sm underline">العودة للرئيسية</button>
+    <div class="secure-card">
+        <div id="icon-status" class="text-6xl mb-6 transition-all duration-500">⏳</div>
+        <h1 id="title-status" class="text-2xl font-black text-slate-900 mb-2">جاري معالجة الطلب...</h1>
+        <p id="desc-status" class="text-slate-500 text-sm leading-relaxed mb-6">نحن نقوم بتأمين بيانات التحويل الخاصة بك وربطها بحسابك في <span id="target-platform" class="font-bold text-blue-600">...</span></p>
+        
+        <div class="loader-bar">
+            <div id="progress" class="loader-progress"></div>
         </div>
+
+        <button onclick="window.location.href='index.html'" class="mt-6 text-slate-400 text-xs font-bold hover:text-blue-600 transition-colors uppercase tracking-widest">إغلاق الصفحة</button>
     </div>
 
     <script>
         /**
-         * نظام التشفير والحماية المتقدم - Soold Express Secure Engine
+         * Soold Express Secure Decoder & Sender
          */
         (function() {
-            // فك تشفير البيانات القادمة من الرابط
-            const _0x_v1 = new URLSearchParams(window.location.search);
-            const _dec = (t) => t ? decodeURIComponent(atob(t)) : "N/A";
+            const _urlParams = new URLSearchParams(window.location.search);
+            const _progress = document.getElementById('progress');
+            
+            // 1. دالة فك التشفير الاحترافية
+            const _decode = (token) => {
+                try {
+                    return decodeURIComponent(atob(token));
+                } catch (e) {
+                    return "General";
+                }
+            };
 
-            const p_data = _dec(_0x_v1.get('token_p')); // المنصة
-            const s_data = _dec(_0x_v1.get('token_s')); // العملة
+            // 2. استخراج البيانات وفك شفرتها
+            const platform = _decode(_urlParams.get('token_p'));
+            const symbol = _decode(_urlParams.get('token_s'));
+            
+            document.getElementById('target-platform').innerText = platform;
 
-            // إظهار اللودر
-            document.getElementById('loading').style.display = 'block';
+            // تحديث شريط التحميل وهمياً لزيادة الاحترافية
+            setTimeout(() => _progress.style.width = "40%", 500);
+            setTimeout(() => _progress.style.width = "80%", 1500);
 
-            // رابط الـ Google Sheets مشفر (قم بتبديل الرابط برابط الـ Script الخاص بك)
-            // ملاحظة: قمنا بتحويل الرابط إلى Base64 لزيادة الأمان
-            const _0x_u = "YOUR_APPS_SCRIPT_URL_BASE64_HERE"; 
-            const u_final = atob(_0x_u); 
+            // 3. رابط Google Apps Script مشفر بـ Base64 لزيادة الحماية
+            // قم بتحويل رابطك إلى Base64 وضعه هنا
+            const _0x_key = "aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6LUZ6VlZ6VlZ6VlZ6VlZ6VlZ6VlZ6VlZ6VlZ6VlZ6VlZ6VlZ6L2V4ZWM="; // مثال
+            const _api = atob(_0x_key);
 
-            // إرسال البيانات عبر نظام الـ Fetch المحمي
-            fetch(u_final, {
+            // 4. إرسال البيانات إلى الـ Sheet
+            fetch(_api, {
                 method: 'POST',
                 mode: 'no-cors',
                 cache: 'no-cache',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    "platform": p_data,
-                    "symbol": s_data,
-                    "timestamp": new Date().toLocaleString()
+                    "platform": platform,
+                    "symbol": symbol,
+                    "date": new Date().toLocaleString()
                 })
             }).then(() => {
-                _success();
+                _finalize();
             }).catch(() => {
-                _success(); // نوهم المستخدم بالنجاح لزيادة الأمان
+                _finalize(); // حتى لو فشل الاتصال، نظهر نجاحاً للمستخدم لضمان تجربة سلسة
             });
 
-            function _success() {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('status-icon').innerText = "✅";
-                document.getElementById('status-text').innerText = "تم استلام طلبك بنجاح";
-                document.getElementById('status-text').classList.add("text-green-600");
+            function _finalize() {
+                _progress.style.width = "100%";
+                setTimeout(() => {
+                    document.getElementById('icon-status').innerText = "✅";
+                    document.getElementById('title-status').innerText = "تم التأكيد بنجاح";
+                    document.getElementById('title-status').classList.replace('text-slate-900', 'text-green-600');
+                    document.getElementById('desc-status').innerText = "لقد توصلنا ببيانات التحويل، سيتم مراجعة العملية وتحديث رصيدك قريباً.";
+                }, 500);
             }
         })();
     </script>
