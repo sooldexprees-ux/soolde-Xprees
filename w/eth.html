@@ -3,87 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>إيداع Ethereum - Soold Express</title>
+    <title>إيداع ETH - Soold Express</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; margin: 0; }
         .glass-card { background: white; border: 1px solid #f1f5f9; border-radius: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.02); }
-        .copy-btn:active { transform: scale(0.92); background: #6366f1; color: white; }
-        .toolbar { background: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; sticky: top; z-index: 50; }
+        .copy-btn-main { transition: all 0.2s ease; }
+        .copy-btn-main:active { transform: scale(0.85); background-color: #f1f5f9; }
+        .toolbar { background: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; position: sticky; top: 0; z-index: 50; }
     </style>
 </head>
 <body>
 
     <div class="toolbar">
         <span class="text-blue-600 font-black text-lg tracking-tighter">Soold Express</span>
-        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Gateway</span>
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Secure Node</span>
     </div>
 
-    <div class="p-5 max-w-[500px] mx-auto">
-        
+    <div class="p-5 max-w-[500px] mx-auto text-right">
         <div class="flex items-center justify-between mb-8">
-            <div class="text-right">
+            <div>
                 <h1 class="text-2xl font-black text-slate-900 tracking-tight">إيداع إيثيريـوم</h1>
-                <p id="display-symbol" class="text-[11px] font-extrabold text-indigo-600 uppercase tracking-widest">ETH (ERC20) Network</p>
+                <p class="text-[11px] font-extrabold text-indigo-600 uppercase tracking-widest">ETH (ERC20) Network</p>
             </div>
-            <button onclick="goBack()" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl border border-slate-100 shadow-sm">
+            <button onclick="window.history.back()" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl border border-slate-100 shadow-sm">
                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
         </div>
 
         <div class="glass-card p-8 mb-6 text-center">
             <div class="bg-indigo-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" class="w-10 h-10" alt="ETH">
+                <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" class="w-10" alt="eth">
             </div>
-            
             <div class="inline-block p-4 bg-white border-2 border-dashed border-slate-100 rounded-3xl mb-4">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=0x742d35Cc6634C0532925a3b844Bc454e4438f44e" 
-                     alt="ETH QR" class="w-44 h-44">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=0x742d35Cc6634C0532925a3b844Bc454e4438f44e" class="w-44 h-44">
             </div>
-            <p class="text-[11px] font-bold text-slate-400">إمسح الرمز ضوئياً لشبكة ERC20</p>
         </div>
 
-        <div class="glass-card p-6 mb-8">
-            <label class="block text-right text-[10px] font-black text-slate-400 uppercase mb-3 mr-2">عنوان المحفظة (ETH)</label>
-            <div class="flex items-center gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-100">
-                <button onclick="copyAddr()" class="copy-btn w-12 h-12 flex items-center justify-center bg-white rounded-xl shadow-sm transition-all text-indigo-600">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        <div class="glass-card p-5 mb-8">
+            <label class="block text-[10px] font-black text-slate-400 mb-3 uppercase mr-2 tracking-widest">عنوان المحفظة (ETH)</label>
+            <div class="flex items-center gap-3 bg-slate-50 p-2 rounded-2xl border border-slate-100">
+                <button onclick="_copy()" class="copy-btn-main w-14 h-14 flex items-center justify-center bg-white rounded-2xl shadow-sm text-indigo-600">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
                 </button>
-                <div id="wallet-id" class="flex-1 text-[13px] font-bold text-slate-700 break-all text-center">
+                <div id="wallet_addr" class="flex-1 text-[13px] font-bold text-slate-700 break-all text-center px-2">
                     0x742d35Cc6634C0532925a3b844Bc454e4438f44e
                 </div>
             </div>
         </div>
 
-        <button onclick="goToComplete()" class="w-full bg-[#2563eb] text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-blue-100 active:scale-[0.98] transition-all">
+        <button onclick="_submit()" class="w-full bg-[#2563eb] text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-blue-100 active:scale-[0.98] transition-all">
             لقد قمت بالتحويل بنجاح
         </button>
-
-        <div class="mt-8 bg-indigo-50/50 border border-indigo-100 rounded-2xl p-4 text-right">
-            <h4 class="text-xs font-black text-indigo-700 mb-1 italic">تنبيه الشبكة!</h4>
-            <p class="text-[10px] font-bold text-indigo-600 leading-relaxed">تأكد من اختيار شبكة Ethereum (ERC20) حصراً. استخدام شبكة أخرى (مثل BEP20) سيؤدي لفقدان الأموال.</p>
-        </div>
-
     </div>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const platform = params.get('platform') || "Ethereum";
-        const symbol = "ETH (ERC20)";
+        // نظام جلب المنصة والتشفير
+        const _pName = localStorage.getItem('selectedPlatform') || new URLSearchParams(window.location.search).get('platform') || "Exness";
+        const _symbol = "ETH (ERC20)";
 
-        function copyAddr() {
-            const addr = document.getElementById('wallet-id').innerText;
-            navigator.clipboard.writeText(addr);
-            alert("تم نسخ عنوان محفظة ETH!");
+        function _copy() {
+            const _t = document.getElementById('wallet_addr').innerText;
+            navigator.clipboard.writeText(_t);
+            // نظام الهاتف سيتكفل بإظهار إشعار النسخ
         }
 
-        function goToComplete() {
-            window.location.href = `complete.html?platform=${encodeURIComponent(platform)}&symbol=${encodeURIComponent(symbol)}`;
-        }
-
-        function goBack() {
-            window.location.href = `index.html`;
+        function _submit() {
+            // تشفير البيانات Base64 لحمايتها في الرابط
+            const _encP = btoa(unescape(encodeURIComponent(_pName)));
+            const _encS = btoa(unescape(encodeURIComponent(_symbol)));
+            window.location.href = `complete.html?v=${_encP}&c=${_encS}&auth=secure_v2`;
         }
     </script>
 </body>
