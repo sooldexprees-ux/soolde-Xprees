@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="ar" dir="rtl"> 
 <head>
     <meta charset="UTF-8">
@@ -109,11 +109,21 @@
     </div>
 
     <script>
-        // الوظيفة المعدلة لتدوير platform و symbol معاً
+        // الوظيفة المعدلة لضمان عدم فقدان الـ Platform وتمرير الـ Symbol
         function goTo(page, symbol) {
             const params = new URLSearchParams(window.location.search);
-            const currentPlatform = params.get('platform') || "General";
-            // نمرر الصفحة، المنصة، والرمز (الشبكة) في الرابط
+            // 1. كيشد المنصة من الرابط الحالي
+            let currentPlatform = params.get('platform');
+            
+            // 2. إذا ملقاش المنصة في الرابط، كيشوف الذاكرة (Storage)
+            if (!currentPlatform) {
+                currentPlatform = localStorage.getItem('selectedPlatform') || "General";
+            } else {
+                // 3. كيحفظها في الذاكرة باش تبقى معاه ديما
+                localStorage.setItem('selectedPlatform', currentPlatform);
+            }
+            
+            // 4. كينتقل للصفحة الجاية وكيرسل معاه المنصة والعملة مريكلين
             window.location.href = page + "?platform=" + encodeURIComponent(currentPlatform) + "&symbol=" + encodeURIComponent(symbol);
         }
     </script>
