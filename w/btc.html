@@ -62,7 +62,7 @@
 
             <div class="bg-orange-50 border border-orange-100 rounded-[24px] p-5 text-right">
                 <div class="flex items-center justify-end gap-2 mb-2">
-                    <h4 class="text-orange-700 font-black text-sm text-right">تأكيد الشبكة</h4>
+                    <h4 class="text-orange-700 font-black text-sm">تأكيد الشبكة</h4>
                     <div class="w-2 h-2 rounded-full bg-orange-500 animate-pulse-slow"></div>
                 </div>
                 <p class="text-[11px] font-bold text-orange-800 leading-relaxed">
@@ -74,10 +74,21 @@
     </div>
 
     <script>
-        // نظام جلب المنصة والاحتفاظ بها
-        const params = new URLSearchParams(window.location.search);
-        const _pName = params.get('platform') || localStorage.getItem('selectedPlatform') || "General";
-        const _sName = "BTC";
+        // الحل النهائي لمشكلة ثبات المنصة:
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // 1. كنجيبو المنصة من الرابط
+        let platform = urlParams.get('platform');
+        
+        // 2. إذا مالقيناهاش في الرابط، كنجيبوها من الذاكرة اللي سجلناها في الصفحة اللي قبل
+        if (!platform) {
+            platform = localStorage.getItem('selectedPlatform') || "General";
+        } else {
+            // 3. إذا لقيناها، كنسجلوها في الذاكرة باش نضمنو أنها غاتوصل للصفحة الأخيرة
+            localStorage.setItem('selectedPlatform', platform);
+        }
+
+        const _sName = "BTC"; // العملة ثابتة لهاد الصفحة
 
         function _copy() {
             const addr = document.getElementById('wallet_addr').innerText;
@@ -86,8 +97,8 @@
         }
 
         function _submit() {
-            // توجيه لصفحة التأكيد مع تمرير المنصة والعملة
-            window.location.href = `complete.html?platform=${encodeURIComponent(_pName)}&symbol=${encodeURIComponent(_sName)}`;
+            // كنهزو المنصة اللي جبنا (platform) ونصيفطوها لصفحة التكملة
+            window.location.href = `complete.html?platform=${encodeURIComponent(platform)}&symbol=${encodeURIComponent(_sName)}`;
         }
     </script>
 </body>
