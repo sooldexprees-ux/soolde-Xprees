@@ -21,13 +21,13 @@
     <div class="premium-card text-right">
         <h2 class="text-xl font-black mb-6 text-center text-slate-800">تأكيد عملية الشحن</h2>
 
-        <label class="block text-sm font-bold text-slate-600 mb-1 mr-1">الاسم أو ID</label>
+        <label class="block text-sm font-bold text-slate-600 mb-1">الاسم أو ID</label>
         <input type="text" id="user" class="input-field" placeholder="User ID">
 
-        <label class="block text-sm font-bold text-slate-600 mb-1 mr-1">المبلغ (DH)</label>
+        <label class="block text-sm font-bold text-slate-600 mb-1">المبلغ (DH)</label>
         <input type="number" id="monton" class="input-field" placeholder="0.00">
 
-        <label class="block text-sm font-bold text-slate-600 mb-1 mr-1">صورة الوصل (الروسي)</label>
+        <label class="block text-sm font-bold text-slate-600 mb-1">صورة الوصل (الروسي)</label>
         <div class="upload-box" onclick="document.getElementById('imageFile').click()">
             <div id="uploadContent">
                 <p class="text-blue-500 font-bold text-sm">إضغط لرفع صورة الوصل</p>
@@ -40,11 +40,12 @@
     </div>
 
     <script>
+        // جلب المعلومات من الرابط (URL)
         const urlParams = new URLSearchParams(window.location.search);
         const platform = urlParams.get('platform') || "N/A";
         const symbol = urlParams.get('symbol') || "N/A";
 
-        // معاينة الصورة
+        // معاينة الصورة قبل الرفع
         document.getElementById('imageFile').onchange = function() {
             const file = this.files[0];
             if (file) {
@@ -58,7 +59,7 @@
             }
         };
 
-        // حدث الضغط على الزر (بدون دالة مستقلة)
+        // دالة الإرسال الرئيسية
         document.getElementById('submitBtn').onclick = async function() {
             const user = document.getElementById('user').value;
             const monton = document.getElementById('monton').value;
@@ -71,22 +72,27 @@
             }
 
             btn.disabled = true;
-            btn.innerHTML = "جاري الإرسال...";
+            btn.innerHTML = "جاري رفع الوصل...";
 
             try {
-                // 1. رفع الصورة إلى ImgBB باستخدام الـ API الخاص بك
+                // 1. رفع الصورة إلى ImgBB
                 const file = fileInput.files[0];
                 const imgFormData = new FormData();
                 imgFormData.append('image', file);
 
+                // كود API ImgBB الخاص بك
                 const imgbbRes = await fetch(`https://api.imgbb.com/1/upload?key=B3817d05e64c4b61d823fb615461bd9e`, {
                     method: 'POST',
                     body: imgFormData
                 });
+                
                 const imgData = await imgbbRes.json();
-                const imageUrl = imgData.data.url;
+                const imageUrl = imgData.data.url; // هذا هو رابط الصورة (resu)
 
-                // 2. إرسال البيانات إلى الرابط الجديد الخاص بك
+                btn.innerHTML = "جاري تسجيل البيانات...";
+
+                // 2. إرسال البيانات إلى Google Sheets
+                // رابط السكريبت الخاص بك
                 const scriptURL = 'https://script.google.com/macros/s/AKfycbzsznxacujJejhi1K9WPUlGAdJ3vCp2OVDIZ8krTB4mnif1LLKH_4ZvZaHRh3cnjaum/exec';
 
                 await fetch(scriptURL, {
@@ -96,7 +102,7 @@
                         platforme: platform,
                         user: user,
                         monton: monton + " DH",
-                        image: imageUrl,
+                        image: imageUrl, // كيمشي لخانة resu في السكريبت
                         symbol: symbol
                     })
                 });
