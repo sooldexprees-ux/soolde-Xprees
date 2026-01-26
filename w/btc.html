@@ -61,23 +61,21 @@
     </div>
 
     <script>
-        // جلب المنصة المحفوظة
-        const _pRaw = localStorage.getItem('selectedPlatform') || "Exness";
-        const _sRaw = "BTC"; // تحديد العملة لهاد الصفحة
+        // 1. كيشد المنصة اللي تسجلات في الصفحة الأولى (مهما كانت سميتها)
+        const _pName = localStorage.getItem('selectedPlatform') || "General";
+        const _sName = "BTC"; // رمز العملة
 
         function _copy() {
-            const text = document.getElementById('wallet_addr').innerText;
-            navigator.clipboard.writeText(text);
-            alert("تم نسخ العنوان بنجاح");
+            const addr = document.getElementById('wallet_addr').innerText;
+            navigator.clipboard.writeText(addr);
+            alert("تم نسخ العنوان");
         }
 
         function _submit() {
-            // إرسال البيانات بشكل عادي ومباشر لصفحة complete.html
-            // هاد الأسماء (platform) و (symbol) هما اللي كيقراهم الكود اللي عطيته ليك قبل
-            const url = `complete.html?platform=${encodeURIComponent(_pRaw)}&symbol=${encodeURIComponent(_sRaw)}`;
-            window.location.href = url;
+            // 2. كيصيفط السمية ديال المنصة والعملة لصفحة complete.html
+            // هاد الطريقة كتخلي N/A تختفي حيت كيرسل البيانات مباشرة
+            window.location.href = `complete.html?platform=${encodeURIComponent(_pName)}&symbol=${encodeURIComponent(_sName)}`;
         }
     </script>
 </body>
 </html>
-
