@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Soold Express - USDT Node</title>
+    <title>Soold Express - USDT TRC20</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; margin: 0; padding-bottom: 40px; overflow-x: hidden; }
         
-        /* التنبيه العائم (Toast) */
         #errorToast {
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
             width: 90%; max-width: 450px; background: #1f1f1f; color: white;
@@ -34,7 +33,7 @@
 
     <div id="errorToast">
         <div class="flex items-center gap-3">
-            <span id="toastIcon" class="bg-green-500/20 p-2 rounded-xl text-green-500 text-xl">📋</span>
+            <span class="bg-green-500/20 p-2 rounded-xl text-green-500 text-xl">📋</span>
             <span id="errorMsg" class="font-bold text-sm">تم نسخ العنوان بنجاح</span>
         </div>
     </div>
@@ -88,7 +87,6 @@
                 </div>
                 <p class="text-[11px] font-bold text-green-800 leading-relaxed">
                     تأكد من إرسال عملة <span class="underline">USDT</span> عبر شبكة <span class="font-black italic">Tron (TRC20)</span> فقط. 
-                    اختيار شبكة خاطئة سيؤدي لفقدان أموالك.
                 </p>
             </div>
         </div>
@@ -99,8 +97,8 @@
         let platform = urlParams.get('platform') || localStorage.getItem('selectedPlatform') || "General";
         localStorage.setItem('selectedPlatform', platform);
 
-        // هنا رجعت الـ symbol لـ "USDT" كيف بغيتي
-        const _sName = "USDT"; 
+        // هنا السيمبول كيتصيفط بالاسم الكامل
+        const _sName = "USDT-TRC20"; 
 
         const toast = document.getElementById('errorToast');
         const errorMsg = document.getElementById('errorMsg');
