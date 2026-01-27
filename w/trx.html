@@ -1,89 +1,132 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html>  
+<html lang="ar" dir="rtl"> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>إيداع TRX - Soold Express</title>
+    <title>Soold Express - Tronix (TRX)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; margin: 0; padding-bottom: 40px; overflow-x: hidden; }
+        
+        /* التنبيه العائم (Toast) */
+        #errorToast {
+            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 450px; background: #1f1f1f; color: white;
+            padding: 18px; border-radius: 20px; border-right: 6px solid #ff0013;
+            display: flex; align-items: center; justify-content: space-between;
+            z-index: 9999; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        #errorToast.show { top: 20px; }
+
         .glass-card { background: white; border: 1px solid #f1f5f9; border-radius: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.02); }
-        .copy-btn:active { transform: scale(0.92); background: #ef4444; color: white; }
         .toolbar { background: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; position: sticky; top: 0; z-index: 50; }
-    </style>
+        
+        @keyframes pulse-custom { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .animate-pulse-slow { animation: pulse-custom 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        
+        .copy-btn-main:active { transform: scale(0.9); }
+        /* تدرج لوني لعملة ترون */
+        .trx-bg { background: linear-gradient(135deg, #ff0013 0%, #a0000d 100%); }
+    </style> 
 </head>
 <body>
 
-    <div class="toolbar">
-        <span class="text-blue-600 font-black text-lg tracking-tighter">Soold Express</span>
-        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">TRX Gateway</span>
+    <div id="errorToast">
+        <div class="flex items-center gap-3">
+            <span class="bg-red-500/20 p-2 rounded-xl text-red-500 text-xl">📋</span>
+            <span id="errorMsg" class="font-bold text-sm">تم نسخ العنوان بنجاح</span>
+        </div>
     </div>
 
-    <div class="p-5 max-w-[500px] mx-auto">
-        
+    <div class="toolbar">
+        <span class="text-blue-600 font-black text-lg tracking-tighter">Soold Express</span>
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">TRC20 Network</span>
+    </div>
+
+    <div class="p-5 max-w-[500px] mx-auto text-right">
         <div class="flex items-center justify-between mb-8">
-            <div class="text-right">
-                <h1 class="text-2xl font-black text-slate-900 tracking-tight">إيداع ترونيكـس (TRX)</h1>
-                <p id="display-symbol" class="text-[11px] font-extrabold text-red-600 uppercase tracking-widest">TRC20 Network</p>
+            <div>
+                <h1 class="text-2xl font-black text-slate-900 tracking-tight">إيداع ترون (TRX)</h1>
+                <p class="text-[11px] font-extrabold text-red-600 uppercase tracking-widest">Tron Network (TRC20)</p>
             </div>
-            <button onclick="goBack()" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl border border-slate-100 shadow-sm">
+            <button onclick="window.history.back()" class="w-10 h-10 flex items-center justify-center bg-white rounded-xl border border-slate-100 shadow-sm">
                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
         </div>
 
         <div class="glass-card p-8 mb-6 text-center">
-            <div class="bg-red-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <img src="https://cryptologos.cc/logos/tron-trx-logo.png" class="w-10 h-10" alt="TRX">
+            <div class="trx-bg w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-red-100">
+                <img src="https://cryptologos.cc/logos/tron-trx-logo.png" class="w-10" alt="trx">
             </div>
-            
             <div class="inline-block p-4 bg-white border-2 border-dashed border-slate-100 rounded-3xl mb-4">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=YOUR_TRX_ADDRESS_HERE" 
-                     alt="TRX QR" class="w-44 h-44">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=TWD8L6mG4Y7fK9P2XmNq5Z1vR7S3E1A2B" class="w-44 h-44">
             </div>
-            <p class="text-[11px] font-bold text-slate-400">إمسح الرمز لعملة TRX فقط</p>
         </div>
 
-        <div class="glass-card p-6 mb-8">
-            <label class="block text-right text-[10px] font-black text-slate-400 uppercase mb-3 mr-2">عنوان المحفظة (TRX - TRC20)</label>
-            <div class="flex items-center gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-100">
-                <button onclick="copyAddr()" class="copy-btn w-12 h-12 flex items-center justify-center bg-white rounded-xl shadow-sm transition-all text-red-600">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        <div class="glass-card p-5">
+            <label class="block text-[10px] font-black text-slate-400 mb-3 uppercase mr-2 tracking-widest">عنوان المحفظة (TRX-TRC20)</label>
+            <div class="flex items-center gap-3 bg-slate-50 p-2 rounded-2xl border border-slate-100 mb-6">
+                <button onclick="_copy()" class="copy-btn-main w-14 h-14 flex items-center justify-center bg-white rounded-2xl shadow-sm text-red-600 transition-all">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
                 </button>
-                <div id="wallet-id" class="flex-1 text-[13px] font-bold text-slate-700 break-all text-center">
-                    YOUR_TRX_ADDRESS_HERE
+                <div id="wallet_addr" class="flex-1 text-[13px] font-bold text-slate-700 break-all text-center px-2">
+                    TWD8L6mG4Y7fK9P2XmNq5Z1vR7S3E1A2B
                 </div>
             </div>
+
+            <button id="submitBtn" onclick="_submit()" class="w-full bg-[#2563eb] text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-blue-100 active:scale-[0.98] transition-all mb-6">
+                لقد قمت بالتحويل بنجاح
+            </button>
+
+            <div class="bg-red-50 border border-red-100 rounded-[24px] p-5 text-right">
+                <div class="flex items-center justify-end gap-2 mb-2">
+                    <h4 class="text-red-700 font-black text-sm">تأكيد الشبكة</h4>
+                    <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse-slow"></div>
+                </div>
+                <p class="text-[11px] font-bold text-red-800 leading-relaxed">
+                    تأكد من إرسال <span class="underline">TRX</span> عبر شبكة <span class="font-black italic">Tron (TRC20)</span> فقط. 
+                    إرسال أي عملة أخرى لهذا العنوان سيؤدي إلى فقدان أصولك.
+                </p>
+            </div>
         </div>
-
-        <button onclick="goToComplete()" class="w-full bg-[#2563eb] text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-blue-100 active:scale-[0.98] transition-all">
-            لقد قمت بالتحويل بنجاح
-        </button>
-
-        <div class="mt-8 bg-red-50/50 border border-red-100 rounded-2xl p-4 text-right">
-            <h4 class="text-xs font-black text-red-700 mb-1 italic">تنبيه الشبكة!</h4>
-            <p class="text-[10px] font-bold text-red-600 leading-relaxed">تأكد من إرسال TRX عبر شبكة TRC20 فقط. العناوين تبدأ دائماً بحرف "T". الإرسال عبر أي شبكة أخرى سيكلفك فقدان الأصول.</p>
-        </div>
-
     </div>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const platform = params.get('platform') || "Tronix";
-        const symbol = "TRX (TRC20)";
+        const urlParams = new URLSearchParams(window.location.search);
+        let platform = urlParams.get('platform') || localStorage.getItem('selectedPlatform') || "General";
+        localStorage.setItem('selectedPlatform', platform);
 
-        function copyAddr() {
-            const addr = document.getElementById('wallet-id').innerText;
-            navigator.clipboard.writeText(addr);
-            alert("تم نسخ عنوان محفظة TRX!");
+        // إرسال الاسم الكامل للشبكة
+        const _sName = "TRX-TRC20"; 
+
+        const toast = document.getElementById('errorToast');
+        const errorMsg = document.getElementById('errorMsg');
+
+        function showToast(msg) {
+            errorMsg.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        function goToComplete() {
-            window.location.href = `complete.html?platform=${encodeURIComponent(platform)}&symbol=${encodeURIComponent(symbol)}`;
+        function _copy() {
+            const addr = document.getElementById('wallet_addr').innerText;
+            navigator.clipboard.writeText(addr).then(() => {
+                showToast("تم نسخ عنوان TRX بنجاح");
+            });
         }
 
-        function goBack() {
-            window.location.href = `index.html`;
+        function _submit() {
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "جاري الانتقال...";
+            btn.style.opacity = "0.7";
+            
+            setTimeout(() => {
+                window.location.href = `complete.html?platform=${encodeURIComponent(platform)}&symbol=${encodeURIComponent(_sName)}`;
+            }, 500);
         }
     </script>
 </body>
